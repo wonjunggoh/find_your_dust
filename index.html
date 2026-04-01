@@ -8,8 +8,8 @@
         @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700;900&display=swap');
 
         :root {
-            --letus-orange: #ff5c39; /* 네가 말한 공식 색상 */
-            --letus-bg: #f8f9fa;
+            --letus-orange: #ff5c39; /* 레터스 공식 주황색 */
+            --letus-bg: #f4f6f9;
             --dust-red: #e74c3c;
             --text-dark: #2d3436;
         }
@@ -27,23 +27,23 @@
             background-color: white;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             z-index: 9999; text-align: center;
-            background-image: radial-gradient(#ddd 1px, transparent 1px);
-            background-size: 20px 20px;
+            background-image: radial-gradient(#eee 1px, transparent 1px);
+            background-size: 15px 15px;
         }
 
         #opening-screen h1 {
-            font-size: 4rem; font-weight: 900; margin: 0;
+            font-size: 4.2rem; font-weight: 900; margin: 0;
             color: var(--letus-orange);
             line-height: 1.1; letter-spacing: -3px;
         }
 
-        #opening-screen p { font-size: 1.4rem; margin: 25px 0 50px; color: #555; font-weight: 500; }
+        #opening-screen p { font-size: 1.5rem; margin: 30px 0 60px; color: #555; font-weight: 500; }
 
         .start-btn {
-            padding: 25px 80px; font-size: 1.8rem; font-weight: 900;
+            padding: 25px 90px; font-size: 1.9rem; font-weight: 900;
             background: var(--letus-orange); color: white; border: none;
             border-radius: 60px; cursor: pointer; transition: 0.3s;
-            box-shadow: 0 15px 30px rgba(255, 92, 57, 0.4);
+            box-shadow: 0 15px 35px rgba(255, 92, 57, 0.4);
         }
         .start-btn:hover { transform: translateY(-5px); filter: brightness(1.1); }
 
@@ -55,18 +55,18 @@
             cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' style='font-size:30px'><text y='32'>🧽</text></svg>") 20 20, auto;
         }
 
-        .status-bar { text-align: center; margin-bottom: 15px; background: rgba(255,255,255,0.8); padding: 10px 30px; border-radius: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .timer-bg { width: 500px; height: 12px; background: #eee; border-radius: 10px; margin: 8px auto; overflow: hidden; border: 2px solid #fff; }
+        .status-bar { text-align: center; margin-bottom: 15px; background: white; padding: 12px 40px; border-radius: 40px; box-shadow: 0 5px 20px rgba(0,0,0,0.06); }
+        .timer-bg { width: 500px; height: 14px; background: #eee; border-radius: 10px; margin: 8px auto; overflow: hidden; border: 3px solid #fff; }
         #timer-fill { width: 100%; height: 100%; background: var(--letus-orange); transition: width 1s linear; }
 
         .game-container { display: flex; gap: 20px; justify-content: center; }
         .canvas {
             position: relative; width: 600px; height: 500px;
-            background: white; border-radius: 30px;
-            box-shadow: 0 15px 50px rgba(0,0,0,0.08); border: 10px solid white;
+            background: white; border-radius: 35px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1); border: 12px solid white;
             overflow: hidden;
         }
-        .label { position: absolute; top: 18px; left: 18px; padding: 7px 18px; border-radius: 20px; color: white; font-size: 13px; font-weight: bold; z-index: 100; letter-spacing: 1px;}
+        .label { position: absolute; top: 20px; left: 20px; padding: 7px 18px; border-radius: 20px; color: white; font-size: 13px; font-weight: bold; z-index: 100; letter-spacing: 1px; box-shadow: 0 3px 10px rgba(0,0,0,0.2);}
 
         /* [3] 일러스트 및 오염 스타일 */
         svg { width: 100%; height: 100%; display: block; }
@@ -75,31 +75,31 @@
         /* 👇 클릭 영역(hitbox)을 투명 테두리(stroke)로 씌워서 대충 눌러도 되게 함 */
         .hitbox { 
             fill: transparent; pointer-events: all; 
-            stroke: transparent; stroke-width: 25px; /* 투명 클릭 방어막 */
+            stroke: transparent; stroke-width: 30px; /* 더 넓은 클릭 방어막 */
         }
         
         /* 👇 클릭 시 터지는 애니메이션 */
         .stain-art { transition: all 0.5s ease-out; pointer-events: none; transform-origin: center; }
-        .found .stain-art { opacity: 0 !important; transform: scale(0.1) rotate(20deg); }
+        .found .stain-art { opacity: 0 !important; transform: scale(0) rotate(20deg); }
 
         /* [4] 결과창 */
         #result-modal {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.92); display: none;
+            background: rgba(0,0,0,0.95); display: none;
             justify-content: center; align-items: center; z-index: 10000;
         }
-        .modal-card { background: white; padding: 60px; border-radius: 50px; text-align: center; max-width: 520px; border-top: 12px solid var(--letus-orange); animation: modalUp 0.6s ease-out; }
-        @keyframes modalUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .modal-card { background: white; padding: 70px; border-radius: 60px; text-align: center; max-width: 550px; border-top: 15px solid var(--letus-orange); animation: modalUp 0.6s ease-out; }
+        @keyframes modalUp { from { transform: translateY(60px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         
-        .cta-link { display: inline-block; margin-top: 25px; padding: 22px 55px; background: var(--letus-orange); color: white; text-decoration: none; border-radius: 50px; font-weight: 900; font-size: 1.4rem; transition: 0.3s; box-shadow: 0 10px 20px rgba(255, 92, 57, 0.3); }
+        .cta-link { display: inline-block; margin-top: 30px; padding: 25px 60px; background: var(--letus-orange); color: white; text-decoration: none; border-radius: 60px; font-weight: 900; font-size: 1.5rem; transition: 0.3s; box-shadow: 0 10px 25px rgba(255, 92, 57, 0.4); }
         .cta-link:hover { transform: scale(1.05); filter: brightness(1.1); }
 
-        /* 👇 청소 거품(파티클) 애니메이션 */
-        .sparkle { position: absolute; pointer-events: none; animation: sparkleAni 0.7s forwards; font-size: 35px; z-index: 1000; }
+        /* 👇 청소 거품 파티클 애니메이션 */
+        .sparkle { position: absolute; pointer-events: none; animation: sparkleAni 0.7s forwards; font-size: 40px; z-index: 1000; }
         @keyframes sparkleAni { 
             0% { transform: scale(0); opacity: 1; } 
-            60% { transform: scale(1.5) translateY(-20px); opacity: 1; }
-            100% { transform: scale(1) translateY(-50px) rotate(20deg); opacity: 0; } 
+            60% { transform: scale(1.6) translateY(-25px); opacity: 1; }
+            100% { transform: scale(1) translateY(-60px) rotate(20deg); opacity: 0; } 
         }
     </style>
 </head>
@@ -107,16 +107,16 @@
 
     <div id="opening-screen">
         <h1>🫧사무실 먼지<br>소멸 대작전🫧</h1>
-        <p>눈에 보이는 먼지 8곳을 찾아<br>스펀지로 깨끗하게 문질러주세요!</p>
+        <p>우리 사무실 곳곳에 숨은 8개의 오염을 찾아<br>스펀지로 깨끗하게 문질러주세요!</p>
         <button class="start-btn" onclick="handleStart()">GAME START</button>
     </div>
 
     <div id="game-main">
         <div class="status-bar">
-            <h2 style="margin:0; color:#333; font-weight: 800;">🔍 보이지 않는 오염 8곳을 찾아라!</h2>
+            <h2 style="margin:0; color:#333; font-weight: 900;">🔍 보이지 않는 오염 8곳을 찾아라!</h2>
             <div class="timer-bg"><div id="timer-fill"></div></div>
-            <div style="font-size: 1.1rem; font-weight: bold; color: #444;">
-                남은 오염: <span id="count-num" style="color:var(--letus-orange); font-weight: 900; font-size: 1.3rem;">8</span> / 8 | 시간: <span id="time-txt">03:00</span>
+            <div style="font-size: 1.2rem; font-weight: bold; color: #444;">
+                남은 오염: <span id="count-num" style="color:var(--letus-orange); font-weight: 900; font-size: 1.5rem;">8</span> / 8 | 시간: <span id="time-txt">03:00</span>
             </div>
         </div>
 
@@ -135,22 +135,22 @@
 
     <div id="result-modal">
         <div class="modal-card">
-            <h2 id="res-title" style="font-size: 3rem; color: var(--letus-orange); margin-top:0; font-weight: 900; letter-spacing: -2px;">✨ 완벽 소멸 완료!</h2>
-            <p style="font-size: 1.25rem; line-height: 1.6; color: #333; font-weight: 500;">
+            <h2 id="res-title" style="font-size: 3.2rem; color: var(--letus-orange); margin-top:0; font-weight: 900; letter-spacing: -3px;">✨ 완벽 소멸 완료!</h2>
+            <p style="font-size: 1.3rem; line-height: 1.6; color: #333; font-weight: 500;">
                 눈에 보이는 큰 먼지 8개를 모두 닦아내셨군요! 🧹<br>
                 하지만 <b>섬유 깊숙한 곳의 진짜 오염</b>은<br>
                 스펀지로 문지르는 정도론 해결되지 않습니다.
             </p>
             
-            <div style="background: #ececec; padding: 20px 25px; border-radius: 20px; margin: 25px 0; text-align: left; font-size: 1rem; line-height: 1.7; color: #2d3436; border: 2px solid #ddd;">
-                <b style="font-size: 1.2rem; display: block; margin-bottom: 10px; color: var(--letus-orange);">✨ 섬유 속 세균까지, 레터스 딥 클리닝</b>
-                <b>1️⃣ 건식 집진:</b> 헤파필터로 깊은 곳 굵은 먼지 제거<br>
-                <b>2️⃣ 얼룩 분해:</b> 찌든 얼룩 부위에 전용 전처리제 <span style="color: var(--letus-orange); font-weight: bold;">집중 분해</span><br>
-                <b>3️⃣ 샴푸 및 추출:</b> 카펫 전용 세제 분사 및 오수 강력 흡입<br>
-                <b>4️⃣ 린스 및 건조:</b> 맑은 물 헹굼으로 잔여 세제 완벽 제거
+            <div style="background: #ececec; padding: 20px 25px; border-radius: 20px; margin: 25px 0; text-align: left; font-size: 1rem; line-height: 1.8; color: #2d3436; border: 2px solid #ddd;">
+                <b style="font-size: 1.2rem; display: block; margin-bottom: 12px; color: var(--letus-orange);">✨ 섬유 속 세균까지, 레터스 딥 클리닝</b>
+                <b>1️⃣ 건식 집진:</b> 헤파필터로 깊은 곳 <span style="color: var(--letus-orange); font-weight: bold;">굵은 먼지와 모래</span> 제거<br>
+                <b>2️⃣ 얼룩 분해:</b> <span style="color: var(--letus-orange); font-weight: bold;">심한 얼룩 부위</span>에 전용 전처리제 <span style="color: var(--letus-orange); font-weight: bold;">집중 분해</span><br>
+                <b>3️⃣ 샴푸 및 추출:</b> 카펫 전용 세제 분사 및 오수 <span style="color: var(--letus-orange); font-weight: bold;">강력 압력</span>으로 흡입<br>
+                <b>4️⃣ 린스 및 건조:</b> 맑은 물 <span style="color: var(--letus-orange); font-weight: bold;">헹굼 작업</span>으로 잔여 세제 완벽 제거
             </div>
 
-            <p style="font-size: 1.2rem; color: #444; font-weight: bold;">
+            <p style="font-size: 1.25rem; color: #444; font-weight: bold;">
                 이제 겉이 아니라 '속'을 청소해야 할 때입니다.<br>
                 레터스와 함께 진정한 '소멸'을 경험해 보세요.
             </p>
@@ -159,54 +159,83 @@
     </div>
 
     <script>
-        // 사무실 일러스트 데이터 (Ver 2.0 - 더 정교해짐)
+        // 사무실 일러스트 데이터 (Ver 2.1 - 더 풍성하고 디테일해짐)
         const officeSVG = `
             <defs>
                 <linearGradient id="wallGrade" x1="0%" y1="0%" x2="0%" y2="100%">
                     <stop offset="0%" style="stop-color:#f9f9f9" />
-                    <stop offset="100%" style="stop-color:#f1f1f1" />
+                    <stop offset="100%" style="stop-color:#e0e3e6" />
+                </linearGradient>
+                <linearGradient id="floorGrade" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:#ced4da" />
+                    <stop offset="100%" style="stop-color:#adb5bd" />
                 </linearGradient>
             </defs>
             <rect width="600" height="500" fill="url(#wallGrade)"/>
-            <rect y="380" width="600" height="120" fill="#e2e6ea"/> <rect x="350" y="40" width="180" height="130" rx="8" fill="#fff" stroke="#adb5bd" stroke-width="4"/>
-            <clipPath id="windowClip"><rect x="355" y="45" width="170" height="120" rx="6"/></clipPath>
+            <rect y="380" width="600" height="120" fill="url(#floorGrade)"/> <rect x="350" y="40" width="180" height="130" rx="10" fill="#fff" stroke="#adb5bd" stroke-width="4"/>
+            <clipPath id="windowClip"><rect x="355" y="45" width="170" height="120" rx="8"/></clipPath>
             <g clip-path="url(#windowClip)">
-                <rect x="355" y="45" width="170" height="120" fill="#e3f2fd"/> <path d="M350 165 L400 90 L460 140 L520 80 L560 165 Z" fill="#81c784"/> <path d="M380 165 L430 110 L480 150 L530 100 L580 165 Z" fill="#66bb6a" opacity="0.8"/>
+                <rect x="355" y="45" width="170" height="120" fill="#e3f2fd"/> 하늘
+                <path d="M350 165 L400 90 L460 140 L520 80 L560 165 Z" fill="#81c784"/> 산
+                <path d="M380 165 L430 110 L480 150 L530 100 L580 165 Z" fill="#66bb6a" opacity="0.8"/>
+                <path d="M355 45 Q400 30 430 45 T480 60 Q530 45 530 45" stroke="#90caf9" stroke-width="2" fill="none"/> 구름
             </g>
 
             <rect x="50" y="410" width="500" height="75" rx="35" fill="#cfd8dc"/>
 
-            <rect x="40" y="260" width="240" height="12" rx="4" fill="#8d6e63"/> <rect x="55" y="272" width="10" height="138" fill="#6d4c41"/> <rect x="255" y="272" width="10" height="138" fill="#6d4c41"/> <rect x="180" y="320" width="70" height="90" rx="5" fill="#ced4da"/> <line x1="185" y1="350" x2="245" y2="350" stroke="#adb5bd" stroke-width="2"/>
+            <rect x="40" y="260" width="240" height="12" rx="4" fill="#8d6e63"/> 책상상판
+            <rect x="55" y="272" width="12" height="138" fill="#6d4c41"/> 왼쪽다리
+            <rect x="255" y="272" width="12" height="138" fill="#6d4c41"/> 오른쪽다리
+            
+            <rect x="180" y="320" width="70" height="90" rx="5" fill="#ced4da"/> 서랍장
+            <line x1="185" y1="350" x2="245" y2="350" stroke="#adb5bd" stroke-width="2"/>
             <line x1="185" y1="380" x2="245" y2="380" stroke="#adb5bd" stroke-width="2"/>
             <circle cx="215" cy="340" r="3" fill="#495057"/>
             <circle cx="215" cy="370" r="3" fill="#495057"/>
 
-            <rect x="80" y="190" width="100" height="60" rx="5" fill="#333"/> <rect x="125" y="250" width="10" height="10" fill="#495057"/> <rect x="100" y="258" width="60" height="2" fill="#495057"/>
+            <rect x="80" y="190" width="100" height="60" rx="5" fill="#333"/> 화면틀
+            <linearGradient id="screenGrade" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#2c3e50" />
+                <stop offset="100%" style="stop-color:#4ca1af" />
+            </linearGradient>
+            <rect x="85" y="195" width="90" height="50" rx="3" fill="url(#screenGrade)"/> 화면속
+            <rect x="125" y="250" width="10" height="10" fill="#495057"/> 스탠드
+            <rect x="100" y="258" width="60" height="2" fill="#495057"/>
 
             <rect x="210" y="225" width="30" height="35" rx="5" fill="#d4a373"/>
-            <path d="M225 225 Q250 180 270 200 Q225 215 225 225 Z" fill="#2d6a4f"/>
-            <path d="M225 225 Q200 170 185 205 Q225 215 225 225 Z" fill="#409167"/>
+            <path d="M225 225 Q250 180 270 200 Q225 215 225 225 Z" fill="#1b5e20"/>
+            <path d="M225 225 Q200 170 185 205 Q225 215 225 225 Z" fill="#2e7d32"/>
+            <circle cx="225" cy="210" r="3" fill="#ffeb3b" opacity="0.8"/> 작은꽃
 
-            <rect x="70" y="280" width="100" height="25" rx="10" fill="#212529"/> <rect x="85" y="210" width="70" height="75" rx="15" fill="#212529"/> <rect x="115" y="305" width="10" height="105" fill="#495057"/>Center
-            <path d="M70 410 L170 410" stroke="#212529" stroke-width="8" stroke-linecap="round"/> 바닥다리
+            <rect x="70" y="280" width="100" height="25" rx="10" fill="#212529"/> 방석
+            <rect x="85" y="210" width="70" height="75" rx="15" fill="#212529"/> 등받이
+            <rect x="115" y="305" width="10" height="105" fill="#495057"/>Center 기둥
+            <path d="M70 410 L170 410" stroke="#212529" stroke-width="10" stroke-linecap="round"/> 바닥다리
 
             <rect x="320" y="270" width="230" height="120" rx="20" fill="#495057"/>
             <rect x="320" y="340" width="230" height="50" rx="10" fill="#343a40"/>
+            <line x1="435" y1="270" x2="435" y2="340" stroke="#2c3e50" stroke-width="2"/> 소파 등받이 나눔
         `;
 
-        // 오염 요소 데이터 (Ver 2.0 - 더 리얼해짐)
+        // 오염 요소 데이터 (Ver 2.1 - 더 리얼해진 번짐 얼룩)
         const stainsSVG = `
             <defs>
-                <radialGradient id="coffeeStain" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" style="stop-color:#4e342e" />
-                    <stop offset="100%" style="stop-color:#3e2723; stop-opacity:0.8" />
+                <radialGradient id="coffeeStainGrade" cx="50%" cy="50%" r="50%">
+                    <stop offset="10%" style="stop-color:#3e2723" />
+                    <stop offset="60%" style="stop-color:#5d4037; stop-opacity:0.9" />
+                    <stop offset="100%" style="stop-color:#6d4c41; stop-opacity:0.2" />
+                </radialGradient>
+                <radialGradient id="waterStainGrade" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" style="stop-color:#90caf9; stop-opacity:0.6" />
+                    <stop offset="70%" style="stop-color:#adb5bd; stop-opacity:0.3" />
+                    <stop offset="100%" style="stop-color:#e9ecef; stop-opacity:0.1" />
                 </radialGradient>
             </defs>
-            <g class="stain-group"><rect class="hitbox" x="350" y="415" width="150" height="60"/><path class="stain-art" d="M380 445 Q410 425 445 440 T490 455 Q450 475 390 465 Z" fill="url(#coffeeStain)"/></g>
-            <g class="stain-group"><rect class="hitbox" x="350" y="330" width="150" height="60"/><g class="stain-art"><circle cx="380" cy="355" r="3" fill="#111"/><circle cx="385" cy="358" r="3" fill="#111"/><circle cx="410" cy="360" r="3" fill="#111"/><circle cx="440" cy="352" r="3" fill="#111"/><circle cx="445" cy="355" r="3" fill="#111"/></g></g>
+            <g class="stain-group"><rect class="hitbox" x="350" y="415" width="150" height="60"/><path class="stain-art" d="M380 445 C385 448, 395 440, 410 425 C430 410, 460 420, 480 435 C495 450, 490 460, 470 470 C440 480, 410 475, 385 465 C370 455, 375 442, 380 445 Z" fill="url(#coffeeStainGrade)"/></g>
+            <g class="stain-group"><rect class="hitbox" x="320" y="340" width="120" height="50"/><path class="stain-art" d="M340 365 C350 355, 360 360, 380 350 C400 340, 420 350, 430 365 C435 375, 425 385, 405 380 C380 375, 360 385, 345 375 C335 370, 335 368, 340 365 Z" fill="url(#waterStainGrade)"/></g>
             <g class="stain-group"><rect class="hitbox" x="80" y="210" width="80" height="80"/><ellipse class="stain-art" cx="120" cy="245" rx="30" ry="30" fill="rgba(0,0,0,0.5)"/></g>
-            <g class="stain-group"><rect class="hitbox" x="350" y="150" width="180" height="25"/><rect class="stain-art" x="355" y="155" width="170" height="6" fill="#adb5bd"/></g>
-            <g class="stain-group"><rect class="hitbox" x="20" y="330" width="80" height="100"/><circle class="stain-art" cx="50" cy="390" r="18" fill="#a1887f" opacity="0.8"/></g>
+            <g class="stain-group"><rect class="hitbox" x="350" y="150" width="180" height="25"/><rect class="stain-art" x="355" y="155" width="170" height="4" fill="#607d8b" opacity="0.8"/></g>
+            <g class="stain-group"><rect class="hitbox" x="20" y="330" width="80" height="100"/><g class="stain-art"><circle cx="45" cy="385" r="3" fill="#111"/><circle cx="50" cy="388" r="3" fill="#111"/><circle cx="65" cy="390" r="3" fill="#111"/><circle cx="85" cy="382" r="3" fill="#111"/><circle cx="90" cy="385" r="3" fill="#111"/></g></g>
             <g class="stain-group"><rect class="hitbox" x="40" y="240" width="60" height="40"/><circle class="stain-art" cx="70" cy="255" r="14" fill="none" stroke="#3e2723" stroke-width="4" opacity="0.6"/></g>
             <g class="stain-group"><rect class="hitbox" x="510" y="280" width="50" height="80"/><ellipse class="stain-art" cx="530" cy="315" rx="15" ry="30" fill="#6d4c41" opacity="0.7"/></g>
             <g class="stain-group"><rect class="hitbox" x="180" y="235" width="50" height="50"/><circle class="stain-art" cx="205" cy="258" r="6" fill="#facc15"/><circle class="stain-art" cx="225" cy="260" r="4" fill="#facc15"/></g>
