@@ -3,207 +3,284 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>사무실 먼지 소멸 대작전!</title>
+    <title>사무실 먼지 소멸 대작전</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700;900&display=swap');
+
         :root {
-            --primary: #2e7d32;
-            --accent: #e74c3c;
-            --bg: #f4f7f6;
+            --primary: #2d6a4f;
+            --secondary: #409167;
+            --accent: #ff4d4d;
+            --bg: #f0f2f5;
         }
 
-        body {
-            margin: 0; padding: 0;
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
             font-family: 'Pretendard', sans-serif;
             background-color: var(--bg);
-            display: flex; flex-direction: column; align-items: center;
-            /* 스펀지 커서 크기 확대 */
-            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64' style='font-size:40px'><text y='40'>🧽</text></svg>") 20 20, auto;
+            overflow: hidden;
             user-select: none;
         }
 
-        #header { text-align: center; padding: 20px; }
-        .timer-wrap { width: 500px; height: 12px; background: #ddd; border-radius: 6px; margin: 10px auto; overflow: hidden; border: 2px solid #fff; }
-        #timer-bar { width: 100%; height: 100%; background: var(--primary); transition: width 1s linear; }
+        /* 오프닝 화면 */
+        #start-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, #2d6a4f 0%, #1b4332 100%);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 2000; color: white; text-align: center;
+        }
 
-        #game-board { display: flex; gap: 20px; justify-content: center; padding: 20px; flex-wrap: wrap; }
-        .container { position: relative; width: 500px; height: 500px; background: white; border: 5px solid #333; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        .label { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7); color: white; padding: 4px 12px; border-radius: 10px; font-size: 12px; z-index: 20; }
+        #start-screen h1 {
+            font-size: 4rem; font-weight: 900; margin: 0;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            letter-spacing: -2px; line-height: 1.2;
+        }
 
-        svg { width: 100%; height: 100%; display: block; }
+        #start-screen p { font-size: 1.2rem; opacity: 0.9; margin: 20px 0 40px; }
 
-        /* 클릭 범위(Hitbox) 설정: 투명하지만 클릭 가능 */
-        .stain-group { cursor: pointer; pointer-events: all; }
-        .hitbox { fill: transparent; transition: fill 0.2s; }
-        /* 디버깅용: 아래 주석을 풀면 클릭 범위를 눈으로 확인할 수 있습니다 */
-        /* .hitbox { fill: rgba(255,0,0,0.2); } */
+        .start-btn {
+            padding: 20px 60px; font-size: 1.5rem; font-weight: bold;
+            color: var(--primary); background: white; border: none;
+            border-radius: 50px; cursor: pointer; transition: 0.3s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        .start-btn:hover { transform: scale(1.1); background: #f0f0f0; }
 
-        .stain-art { transition: opacity 0.3s; pointer-events: none; }
+        /* 게임 본 화면 */
+        #game-ui {
+            display: none; flex-direction: column; align-items: center;
+            width: 100%; height: 100vh; padding-top: 20px;
+            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64' style='font-size:40px'><text y='40'>🧽</text></svg>") 20 20, auto;
+        }
+
+        .header { text-align: center; margin-bottom: 20px; }
+        .timer-container { width: 600px; height: 15px; background: #ddd; border-radius: 10px; margin: 10px auto; overflow: hidden; border: 3px solid white; }
+        #timer-bar { width: 100%; height: 100%; background: var(--secondary); transition: width 1s linear; }
+
+        .board { display: flex; gap: 30px; }
+        .canvas {
+            position: relative; width: 520px; height: 520px;
+            background: white; border-radius: 25px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1); overflow: hidden;
+            border: 8px solid white;
+        }
+        .canvas-label {
+            position: absolute; top: 20px; left: 20px; z-index: 100;
+            background: rgba(0,0,0,0.6); color: white; padding: 6px 15px;
+            border-radius: 20px; font-size: 0.8rem; font-weight: bold;
+        }
+
+        /* SVG 스타일링 */
+        svg { width: 100%; height: 100%; }
+        .stain-group { cursor: pointer; }
+        .hitbox { fill: transparent; }
+        .stain-art { transition: opacity 0.4s ease; pointer-events: none; }
         .found .stain-art { opacity: 0 !important; }
-        .found { pointer-events: none; }
-
-        /* 클릭 시 팡 터지는 효과 */
-        .pop { position: absolute; pointer-events: none; animation: pop-ani 0.5s ease-out forwards; font-size: 30px; z-index: 100; }
-        @keyframes pop-ani { 0% { transform: scale(0.5); opacity: 1; } 100% { transform: scale(2); opacity: 0; } }
 
         /* 결과창 */
-        #modal { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); display:none; justify-content:center; align-items:center; z-index:1000; }
-        .modal-content { background:white; padding:40px; border-radius:25px; text-align:center; max-width:500px; }
-        .btn { background: var(--primary); color: white; padding: 15px 35px; border: none; border-radius: 30px; font-size: 1.2rem; font-weight: bold; cursor: pointer; text-decoration: none; display: inline-block; margin-top: 20px; }
+        #result-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); display: none;
+            justify-content: center; align-items: center; z-index: 3000;
+        }
+        .modal-content {
+            background: white; padding: 50px; border-radius: 40px;
+            text-align: center; max-width: 500px; animation: popUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes popUp { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .cta-btn {
+            display: inline-block; margin-top: 30px; padding: 18px 40px;
+            background: var(--primary); color: white; text-decoration: none;
+            border-radius: 40px; font-weight: bold; font-size: 1.2rem;
+        }
+
+        .dust-particle { position: absolute; pointer-events: none; animation: fly 0.6s forwards; font-size: 24px; z-index: 500; }
+        @keyframes fly { 0% { transform: scale(1) translateY(0); opacity: 1; } 100% { transform: scale(2) translateY(-50px); opacity: 0; } }
     </style>
 </head>
 <body>
 
-<div id="header">
-    <h1>🔍 사무실 먼지 소멸 작전</h1>
-    <p>오른쪽 그림에서 <b>카펫과 소파의 오염 8곳</b>을 스펀지로 문질러주세요!</p>
-    <div class="timer-wrap"><div id="timer-bar"></div></div>
-    <div style="font-size: 1.2rem;">찾은 먼지: <strong id="found-count" style="color:var(--primary)">0</strong> / 8 | 남은 시간: <span id="time-text">03:00</span></div>
+<!-- 오프닝 화면 -->
+<div id="start-screen">
+    <h1>사무실 먼지<br>소멸 대작전!</h1>
+    <p>우리 사무실 속에 숨은 8개의 오염을 찾아 스펀지로 완벽하게 제거하세요.</p>
+    <button class="start-btn" onclick="startGame()">GAME START</button>
 </div>
 
-<div id="game-board">
-    <!-- 왼쪽: 깨끗한 사무실 -->
-    <div class="container">
-        <div class="label">CLEAN OFFICE</div>
-        <svg viewBox="0 0 500 500">
-            <!-- 공통 배경 -->
-            <rect width="500" height="500" fill="#f8f9fa"/>
-            <rect y="350" width="500" height="150" fill="#e0e0e0"/> <!-- 바닥 -->
-            <rect x="30" y="380" width="440" height="100" rx="20" fill="#cfd8dc"/> <!-- 카페트 -->
-            <rect x="250" y="220" width="220" height="130" rx="10" fill="#90a4ae"/> <!-- 패브릭 소파 -->
-            <rect x="250" y="310" width="220" height="40" rx="5" fill="#78909c"/> <!-- 소파 쿠션 -->
-            <rect x="30" y="240" width="180" height="15" fill="#8d6e63"/> <!-- 책상 -->
-            <rect x="50" y="200" width="140" height="100" rx="10" fill="#546e7a"/> <!-- 의자 -->
-            <rect x="300" y="50" width="140" height="100" fill="white" stroke="#90caf9" stroke-width="3"/> <!-- 창문 -->
-        </svg>
+<!-- 게임 UI -->
+<div id="game-ui">
+    <div class="header">
+        <h2 style="margin:0; color:#333;">🔍 숨은 오염물질 찾기 (8곳)</h2>
+        <div class="timer-container"><div id="timer-bar"></div></div>
+        <div style="font-size: 1.1rem; font-weight: bold; color: #666;">
+            남은 먼지: <span id="count" style="color:var(--accent)">8</span> / 8 | 시간: <span id="time-txt">03:00</span>
+        </div>
     </div>
 
-    <!-- 오른쪽: 오염된 사무실 (게임 영역) -->
-    <div class="container" id="game-area">
-        <div class="label" style="background:var(--accent)">DIRTY OFFICE</div>
-        <svg viewBox="0 0 500 500">
-            <!-- 배경 (왼쪽과 동일) -->
-            <rect width="500" height="500" fill="#f8f9fa"/>
-            <rect y="350" width="500" height="150" fill="#e0e0e0"/>
-            <rect x="30" y="380" width="440" height="100" rx="20" fill="#cfd8dc"/>
-            <rect x="250" y="220" width="220" height="130" rx="10" fill="#90a4ae"/>
-            <rect x="250" y="310" width="220" height="40" rx="5" fill="#78909c"/>
-            <rect x="30" y="240" width="180" height="15" fill="#8d6e63"/>
-            <rect x="50" y="200" width="140" height="100" rx="10" fill="#546e7a"/>
-            <rect x="300" y="50" width="140" height="100" fill="white" stroke="#90caf9" stroke-width="3"/>
-
-            <!-- 오염 8개 (클릭 범위 대폭 확대) -->
-            
-            <!-- 1. 카페트 위 큰 커피 얼룩 -->
-            <g class="stain-group">
-                <rect class="hitbox" x="300" y="380" width="120" height="80"/>
-                <path class="stain-art" d="M320 420 Q340 400 380 410 T420 430 Q380 455 330 445 Z" fill="#5d4037"/>
-            </g>
-
-            <!-- 2. 카페트 구석 먼지 뭉치 -->
-            <g class="stain-group">
-                <rect class="hitbox" x="40" y="400" width="80" height="80"/>
-                <circle class="stain-art" cx="70" cy="440" r="15" fill="#9e9e9e" opacity="0.7"/>
-                <circle class="stain-art" cx="85" cy="445" r="10" fill="#9e9e9e" opacity="0.7"/>
-            </g>
-
-            <!-- 3. 소파 위 과자 부스러기 -->
-            <g class="stain-group">
-                <rect class="hitbox" x="280" y="270" width="100" height="60"/>
-                <g class="stain-art">
-                    <circle cx="310" cy="300" r="3" fill="#bf360c"/><circle cx="325" cy="305" r="4" fill="#bf360c"/><circle cx="340" cy="298" r="3" fill="#bf360c"/>
-                </g>
-            </g>
-
-            <!-- 4. 소파 등받이 얼룩 -->
-            <g class="stain-group">
-                <rect class="hitbox" x="380" y="230" width="80" height="80"/>
-                <ellipse class="stain-art" cx="420" cy="270" rx="20" ry="25" fill="#3e2723" opacity="0.5"/>
-            </g>
-
-            <!-- 5. 의자 등받이 오염 -->
-            <g class="stain-group">
-                <rect class="hitbox" x="70" y="210" width="100" height="60"/>
-                <rect class="stain-art" x="80" y="220" width="80" height="40" rx="10" fill="rgba(0,0,0,0.4)"/>
-            </g>
-
-            <!-- 6. 창문틀 꽃가루 -->
-            <g class="stain-group">
-                <rect class="hitbox" x="300" y="140" width="140" height="40"/>
-                <rect class="stain-art" x="300" y="145" width="140" height="8" fill="#fbc02d"/>
-            </g>
-
-            <!-- 7. 책상 위 커피 컵 자국 -->
-            <g class="stain-group">
-                <rect class="hitbox" x="140" y="220" width="60" height="50"/>
-                <circle class="stain-art" cx="170" cy="235" r="12" fill="none" stroke="#4e342e" stroke-width="3" opacity="0.6"/>
-            </g>
-
-            <!-- 8. 바닥 구석의 머리카락/먼지 -->
-            <g class="stain-group">
-                <rect class="hitbox" x="10" y="330" width="80" height="50"/>
-                <path class="stain-art" d="M20 355 Q40 345 60 360 M30 365 Q50 355 70 370" stroke="#424242" fill="none" stroke-width="2"/>
-            </g>
-        </svg>
+    <div class="board">
+        <!-- 왼쪽: 깨끗한 방 -->
+        <div class="canvas">
+            <div class="canvas-label">정상 사무실</div>
+            <svg id="svg-clean" viewBox="0 0 500 500"></svg>
+        </div>
+        <!-- 오른쪽: 오염된 방 -->
+        <div class="canvas" id="game-canvas">
+            <div class="canvas-label" style="background:var(--accent)">오염된 사무실 (클릭!)</div>
+            <svg id="svg-dirty" viewBox="0 0 500 500"></svg>
+        </div>
     </div>
 </div>
 
-<div id="modal">
+<!-- 결과창 -->
+<div id="result-modal">
     <div class="modal-content">
-        <h2>🎉 미션 완료!</h2>
-        <p>눈에 보이는 오염 8개를 모두 제거했습니다!<br>하지만 카펫 섬유 속에는 아직 <b>20만 마리의 세균</b>이 살고 있다는 사실, 알고 계셨나요?</p>
-        <p>전문적인 장비만이 소재 안쪽의 먼지까지 해결할 수 있습니다.</p>
-        <a href="https://www.letus4u.com/" class="btn">사무실 먼지 소멸하기 🚀</a>
+        <h2 id="res-title" style="font-size: 2.2rem; color: var(--primary);">✨ 미션 완료!</h2>
+        <p style="line-height: 1.6; color: #444; font-size: 1.1rem;">
+            눈에 보이는 먼지는 모두 닦아냈습니다!<br>
+            하지만 <b>카펫 깊숙한 곳의 20만 마리 세균</b>은<br>
+            전문 장비 없이는 결코 사라지지 않습니다.
+        </p>
+        <p style="color: #888;">이번 봄, 진짜 소멸을 경험해보세요.</p>
+        <a href="https://www.letus4u.com/" class="cta-btn">사무실 먼지 소멸하기 🚀</a>
     </div>
 </div>
 
 <script>
+    // 일러스트 자산 정의 (디테일한 가구 코딩)
+    const officeIllustration = `
+        <defs>
+            <linearGradient id="wood" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#a67c52"/><stop offset="100%" stop-color="#8d6e63"/>
+            </linearGradient>
+            <pattern id="carpetPattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                <circle cx="2" cy="2" r="1" fill="rgba(0,0,0,0.05)"/>
+            </pattern>
+        </defs>
+        <!-- 배경 -->
+        <rect width="500" height="500" fill="#f8f9fb"/>
+        <path d="M0 380 L500 380 L500 500 L0 500 Z" fill="#e2e8f0"/> <!-- 바닥 -->
+        
+        <!-- 고급 카펫 -->
+        <rect x="40" y="400" width="420" height="80" rx="15" fill="#cfd8dc"/>
+        <rect x="40" y="400" width="420" height="80" rx="15" fill="url(#carpetPattern)"/>
+        
+        <!-- 창문 -->
+        <rect x="300" y="40" width="160" height="120" rx="5" fill="#ffffff" stroke="#cbd5e1" stroke-width="6"/>
+        <rect x="305" y="45" width="150" height="110" fill="#f0f9ff"/>
+        <rect x="375" y="45" width="2" height="110" fill="#cbd5e1"/>
+        
+        <!-- 책상 세트 -->
+        <rect x="20" y="240" width="200" height="12" rx="4" fill="url(#wood)"/> <!-- 상판 -->
+        <rect x="40" y="252" width="8" height="128" fill="#795548"/> <!-- 다리1 -->
+        <rect x="180" y="252" width="8" height="128" fill="#795548"/> <!-- 다리2 -->
+        
+        <!-- 모니터 & 키보드 -->
+        <rect x="70" y="180" width="100" height="60" rx="3" fill="#334155"/> <!-- 모니터 -->
+        <rect x="115" y="230" width="10" height="10" fill="#475569"/> <!-- 스탠드 -->
+        <rect x="70" y="235" width="100" height="4" fill="#94a3b8" rx="2"/> <!-- 키보드 -->
+
+        <!-- 화분 (퀄리티 포인트) -->
+        <rect x="200" y="190" width="30" height="35" rx="5" fill="#fb923c"/>
+        <path d="M215 190 Q235 160 250 170 Q215 180 215 190" fill="#4ade80"/>
+        <path d="M215 190 Q195 150 180 175 Q215 185 215 190" fill="#22c55e"/>
+
+        <!-- 패브릭 소파 (부드러운 곡선) -->
+        <rect x="260" y="240" width="210" height="120" rx="20" fill="#64748b"/>
+        <rect x="260" y="310" width="210" height="50" rx="10" fill="#475569"/> <!-- 하단 시트 -->
+        <rect x="260" y="260" width="40" height="80" rx="10" fill="#475569"/> <!-- 왼쪽 팔걸이 -->
+        <rect x="430" y="260" width="40" height="80" rx="10" fill="#475569"/> <!-- 오른쪽 팔걸이 -->
+
+        <!-- 사무용 의자 -->
+        <rect x="80" y="330" width="80" height="8" rx="4" fill="#1e293b"/> <!-- 다리바닥 -->
+        <rect x="115" y="290" width="10" height="40" fill="#334155"/> <!-- 기둥 -->
+        <rect x="75" y="270" width="90" height="20" rx="8" fill="#334155"/> <!-- 방석 -->
+        <rect x="85" y="210" width="70" height="65" rx="15" fill="#334155"/> <!-- 등받이 -->
+    `;
+
+    const stains = `
+        <g class="stain-group" data-id="1">
+            <rect class="hitbox" x="300" y="400" width="120" height="80"/>
+            <path class="stain-art" d="M320 430 Q350 410 390 425 T440 450 Q380 470 320 455 Z" fill="#5d4037" opacity="0.8"/>
+        </g>
+        <g class="stain-group" data-id="2">
+            <rect class="hitbox" x="270" y="300" width="100" height="60"/>
+            <g class="stain-art">
+                <circle cx="310" cy="325" r="4" fill="#a1887f"/><circle cx="330" cy="335" r="3" fill="#a1887f"/><circle cx="350" cy="320" r="5" fill="#a1887f"/>
+            </g>
+        </g>
+        <g class="stain-group" data-id="3">
+            <rect class="hitbox" x="80" y="210" width="80" height="60"/>
+            <ellipse class="stain-art" cx="120" cy="240" rx="25" ry="20" fill="rgba(0,0,0,0.4)"/>
+        </g>
+        <g class="stain-group" data-id="4">
+            <rect class="hitbox" x="300" y="145" width="150" height="30"/>
+            <rect class="stain-art" x="305" y="152" width="145" height="6" fill="#facc15" opacity="0.8"/>
+        </g>
+        <g class="stain-group" data-id="5">
+            <rect class="hitbox" x="20" y="380" width="80" height="80"/>
+            <circle class="stain-art" cx="60" cy="420" r="15" fill="#94a3b8" opacity="0.6"/>
+        </g>
+        <g class="stain-group" data-id="6">
+            <rect class="hitbox" x="140" y="240" width="60" height="40"/>
+            <circle class="stain-art" cx="170" cy="255" r="12" fill="none" stroke="#4e342e" stroke-width="3" opacity="0.5"/>
+        </g>
+        <g class="stain-group" data-id="7">
+            <rect class="hitbox" x="420" y="250" width="60" height="80"/>
+            <path class="stain-art" d="M430 270 Q450 280 440 310" stroke="#3e2723" stroke-width="5" stroke-linecap="round" opacity="0.6"/>
+        </g>
+        <g class="stain-group" data-id="8">
+            <rect class="hitbox" x="70" y="180" width="100" height="60"/>
+            <circle class="stain-art" cx="100" cy="200" r="10" fill="rgba(255,255,255,0.2)"/>
+        </g>
+    `;
+
+    document.getElementById('svg-clean').innerHTML = officeIllustration;
+    document.getElementById('svg-dirty').innerHTML = officeIllustration + stains;
+
     let found = 0;
-    const total = 8;
     let time = 180;
+    let timerStarted = false;
 
-    // 타이머 로직
-    const timer = setInterval(() => {
-        time--;
-        const m = Math.floor(time/60);
-        const s = time%60;
-        document.getElementById('time-text').innerText = `${m}:${s < 10 ? '0'+s : s}`;
-        document.getElementById('timer-bar').style.width = (time/180)*100 + '%';
-        if(time <= 0) { clearInterval(timer); showModal(false); }
-    }, 1000);
+    function startGame() {
+        document.getElementById('start-screen').style.display = 'none';
+        document.getElementById('game-ui').style.display = 'flex';
+        startTimer();
+    }
 
-    // 클릭 이벤트 로직
-    document.querySelectorAll('.stain-group').forEach(el => {
+    function startTimer() {
+        const t = setInterval(() => {
+            time--;
+            const m = Math.floor(time/60);
+            const s = time%60;
+            document.getElementById('time-txt').innerText = `${m}:${s < 10 ? '0'+s : s}`;
+            document.getElementById('timer-bar').style.width = (time/180)*100 + '%';
+            if(time <= 0) { clearInterval(t); end(false); }
+        }, 1000);
+        window.currentTimer = t;
+    }
+
+    document.querySelectorAll('#svg-dirty .stain-group').forEach(el => {
         el.addEventListener('mousedown', function(e) {
             if(this.classList.contains('found')) return;
-
-            // 성공 처리
             this.classList.add('found');
             found++;
-            document.getElementById('found-count').innerText = found;
+            document.getElementById('count').innerText = 8 - found;
+            
+            const p = document.createElement('div');
+            p.className = 'dust-particle';
+            p.innerText = '✨';
+            p.style.left = e.pageX + 'px'; p.style.top = e.pageY + 'px';
+            document.body.appendChild(p);
+            setTimeout(() => p.remove(), 600);
 
-            // 효과 생성
-            const effect = document.createElement('div');
-            effect.className = 'pop';
-            effect.innerText = '✨';
-            effect.style.left = e.pageX - 15 + 'px';
-            effect.style.top = e.pageY - 15 + 'px';
-            document.body.appendChild(effect);
-            setTimeout(() => effect.remove(), 500);
-
-            if(found === total) {
-                clearInterval(timer);
-                setTimeout(() => showModal(true), 500);
-            }
+            if(found === 8) { clearInterval(window.currentTimer); setTimeout(() => end(true), 500); }
         });
     });
 
-    function showModal(isWin) {
-        document.getElementById('modal').style.display = 'flex';
-        if(!isWin) {
-            document.querySelector('#modal h2').innerText = "시간 초과! ⏰";
-        }
+    function end(win) {
+        document.getElementById('result-modal').style.display = 'flex';
+        if(!win) document.getElementById('res-title').innerText = "시간 초과! ⏰";
     }
 </script>
-
 </body>
 </html>
