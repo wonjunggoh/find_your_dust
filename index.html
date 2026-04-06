@@ -8,7 +8,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700;900&display=swap');
 
         :root {
-            --letus-orange: #ff5c39; /* 레터스 공식 주황색 */
+            --letus-orange: #ff5c39;
             --letus-bg: #f4f6f9;
             --dust-red: #e74c3c;
             --text-dark: #2d3436;
@@ -51,7 +51,7 @@
         #game-main {
             display: none; flex-direction: column; align-items: center;
             width: 100%; height: 100%; padding-top: 15px;
-            /* 👇 스펀지 커서 크기 축소 (40x40) 및 정중앙(20 20) 정렬 */
+            /* 스펀지 커서 */
             cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' style='font-size:30px'><text y='32'>🧽</text></svg>") 20 20, auto;
         }
 
@@ -71,14 +71,7 @@
         /* [3] 일러스트 및 오염 스타일 */
         svg { width: 100%; height: 100%; display: block; }
         .stain-group { cursor: pointer; }
-        
-        /* 👇 클릭 영역(hitbox)을 투명 테두리(stroke)로 씌워서 대충 눌러도 되게 함 */
-        .hitbox { 
-            fill: transparent; pointer-events: all; 
-            stroke: transparent; stroke-width: 30px; /* 더 넓은 클릭 방어막 */
-        }
-        
-        /* 👇 클릭 시 터지는 애니메이션 */
+        .hitbox { fill: transparent; pointer-events: all; stroke: transparent; stroke-width: 30px; }
         .stain-art { transition: all 0.5s ease-out; pointer-events: none; transform-origin: center; }
         .found .stain-art { opacity: 0 !important; transform: scale(0) rotate(20deg); }
 
@@ -88,13 +81,13 @@
             background: rgba(0,0,0,0.95); display: none;
             justify-content: center; align-items: center; z-index: 10000;
         }
-        .modal-card { background: white; padding: 70px; border-radius: 60px; text-align: center; max-width: 550px; border-top: 15px solid var(--letus-orange); animation: modalUp 0.6s ease-out; }
+        .modal-card { background: white; padding: 50px 70px; border-radius: 60px; text-align: center; max-width: 550px; border-top: 15px solid var(--letus-orange); animation: modalUp 0.6s ease-out; }
         @keyframes modalUp { from { transform: translateY(60px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         
         .cta-link { display: inline-block; margin-top: 30px; padding: 25px 60px; background: var(--letus-orange); color: white; text-decoration: none; border-radius: 60px; font-weight: 900; font-size: 1.5rem; transition: 0.3s; box-shadow: 0 10px 25px rgba(255, 92, 57, 0.4); }
         .cta-link:hover { transform: scale(1.05); filter: brightness(1.1); }
 
-        /* 👇 청소 거품 파티클 애니메이션 */
+        /* 파티클 애니메이션 */
         .sparkle { position: absolute; pointer-events: none; animation: sparkleAni 0.7s forwards; font-size: 40px; z-index: 1000; }
         @keyframes sparkleAni { 
             0% { transform: scale(0); opacity: 1; } 
@@ -106,7 +99,7 @@
 <body>
 
     <div id="opening-screen">
-        <h1>🫧사무실 먼지 소멸 대작전🫧</h1>
+        <h1>🫧사무실 먼지<br>소멸 대작전🫧</h1>
         <p>우리 사무실 곳곳에 숨은 8개의 오염을 찾아<br>스펀지로 깨끗하게 문질러주세요!</p>
         <button class="start-btn" onclick="handleStart()">GAME START</button>
     </div>
@@ -125,7 +118,6 @@
                 <div class="label" style="background:#808e9b;">CLEAN OFFICE</div>
                 <svg id="clean-svg" viewBox="0 0 600 500" xmlns="http://www.w3.org/2000/svg"></svg>
             </div>
-
             <div class="canvas" id="dirty-canvas">
                 <div class="label" style="background:var(--dust-red)">DIRTY OFFICE (클릭!)</div>
                 <svg id="dirty-svg" viewBox="0 0 600 500" xmlns="http://www.w3.org/2000/svg"></svg>
@@ -134,32 +126,10 @@
     </div>
 
     <div id="result-modal">
-        <div class="modal-card">
-            <h2 id="res-title" style="font-size: 3.2rem; color: var(--letus-orange); margin-top:0; font-weight: 900; letter-spacing: -3px;">✨ 완벽 소멸 완료!</h2>
-            <p style="font-size: 1.3rem; line-height: 1.6; color: #333; font-weight: 500;">
-                눈에 보이는 큰 먼지 8개를 모두 닦아내셨군요! 🧹<br>
-                하지만 <b>섬유 깊숙한 곳의 진짜 오염</b>은<br>
-                스펀지로 문지르는 정도론 해결되지 않습니다.
-            </p>
-            
-            <div style="background: #ececec; padding: 20px 25px; border-radius: 20px; margin: 25px 0; text-align: left; font-size: 1rem; line-height: 1.8; color: #2d3436; border: 2px solid #ddd;">
-                <b style="font-size: 1.2rem; display: block; margin-bottom: 12px; color: var(--letus-orange);">✨ 섬유 속 세균까지, 레터스 딥 클리닝</b>
-                <b>1️⃣ 건식 집진:</b> 헤파필터로 깊은 곳 <span style="color: var(--letus-orange); font-weight: bold;">굵은 먼지와 모래</span> 제거<br>
-                <b>2️⃣ 얼룩 분해:</b> <span style="color: var(--letus-orange); font-weight: bold;">심한 얼룩 부위</span>에 전용 전처리제 <span style="color: var(--letus-orange); font-weight: bold;">집중 분해</span><br>
-                <b>3️⃣ 샴푸 및 추출:</b> 카펫 전용 세제 분사 및 오수 <span style="color: var(--letus-orange); font-weight: bold;">강력 압력</span>으로 흡입<br>
-                <b>4️⃣ 린스 및 건조:</b> 맑은 물 <span style="color: var(--letus-orange); font-weight: bold;">헹굼 작업</span>으로 잔여 세제 완벽 제거
-            </div>
-
-            <p style="font-size: 1.25rem; color: #444; font-weight: bold;">
-                이제 겉이 아니라 '속'을 청소해야 할 때입니다.<br>
-                레터스와 함께 진정한 '쾌적함'을 경험해 보세요.
-            </p>
-            <a href="https://www.letus4u.com/" class="cta-link">우리 사무실 먼지 소멸하기 🚀</a>
-        </div>
+        <div class="modal-card" id="modal-content-box"></div>
     </div>
 
     <script>
-        // 사무실 일러스트 데이터 (Ver 2.1 - 더 풍성하고 디테일해짐)
         const officeSVG = `
             <defs>
                 <linearGradient id="wallGrade" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -172,52 +142,53 @@
                 </linearGradient>
             </defs>
             <rect width="600" height="500" fill="url(#wallGrade)"/>
-            <rect y="380" width="600" height="120" fill="url(#floorGrade)"/> <rect x="350" y="40" width="180" height="130" rx="10" fill="#fff" stroke="#adb5bd" stroke-width="4"/>
+            <rect y="380" width="600" height="120" fill="url(#floorGrade)"/>
+            
+            <rect x="350" y="40" width="180" height="130" rx="10" fill="#fff" stroke="#adb5bd" stroke-width="4"/>
             <clipPath id="windowClip"><rect x="355" y="45" width="170" height="120" rx="8"/></clipPath>
             <g clip-path="url(#windowClip)">
-                <rect x="355" y="45" width="170" height="120" fill="#e3f2fd"/> 하늘
-                <path d="M350 165 L400 90 L460 140 L520 80 L560 165 Z" fill="#81c784"/> 산
+                <rect x="355" y="45" width="170" height="120" fill="#e3f2fd"/>
+                <path d="M350 165 L400 90 L460 140 L520 80 L560 165 Z" fill="#81c784"/>
                 <path d="M380 165 L430 110 L480 150 L530 100 L580 165 Z" fill="#66bb6a" opacity="0.8"/>
-                <path d="M355 45 Q400 30 430 45 T480 60 Q530 45 530 45" stroke="#90caf9" stroke-width="2" fill="none"/> 구름
+                <path d="M355 45 Q400 30 430 45 T480 60 Q530 45 530 45" stroke="#90caf9" stroke-width="2" fill="none"/>
             </g>
 
             <rect x="50" y="410" width="500" height="75" rx="35" fill="#cfd8dc"/>
 
-            <rect x="40" y="260" width="240" height="12" rx="4" fill="#8d6e63"/> 책상상판
-            <rect x="55" y="272" width="12" height="138" fill="#6d4c41"/> 왼쪽다리
-            <rect x="255" y="272" width="12" height="138" fill="#6d4c41"/> 오른쪽다리
+            <rect x="40" y="260" width="240" height="12" rx="4" fill="#8d6e63"/>
+            <rect x="55" y="272" width="12" height="138" fill="#6d4c41"/>
+            <rect x="255" y="272" width="12" height="138" fill="#6d4c41"/>
             
-            <rect x="180" y="320" width="70" height="90" rx="5" fill="#ced4da"/> 서랍장
+            <rect x="180" y="320" width="70" height="90" rx="5" fill="#ced4da"/>
             <line x1="185" y1="350" x2="245" y2="350" stroke="#adb5bd" stroke-width="2"/>
             <line x1="185" y1="380" x2="245" y2="380" stroke="#adb5bd" stroke-width="2"/>
             <circle cx="215" cy="340" r="3" fill="#495057"/>
             <circle cx="215" cy="370" r="3" fill="#495057"/>
 
-            <rect x="80" y="190" width="100" height="60" rx="5" fill="#333"/> 화면틀
+            <rect x="80" y="190" width="100" height="60" rx="5" fill="#333"/>
             <linearGradient id="screenGrade" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" style="stop-color:#2c3e50" />
                 <stop offset="100%" style="stop-color:#4ca1af" />
             </linearGradient>
-            <rect x="85" y="195" width="90" height="50" rx="3" fill="url(#screenGrade)"/> 화면속
-            <rect x="125" y="250" width="10" height="10" fill="#495057"/> 스탠드
+            <rect x="85" y="195" width="90" height="50" rx="3" fill="url(#screenGrade)"/>
+            <rect x="125" y="250" width="10" height="10" fill="#495057"/>
             <rect x="100" y="258" width="60" height="2" fill="#495057"/>
 
             <rect x="210" y="225" width="30" height="35" rx="5" fill="#d4a373"/>
             <path d="M225 225 Q250 180 270 200 Q225 215 225 225 Z" fill="#1b5e20"/>
             <path d="M225 225 Q200 170 185 205 Q225 215 225 225 Z" fill="#2e7d32"/>
-            <circle cx="225" cy="210" r="3" fill="#ffeb3b" opacity="0.8"/> 작은꽃
+            <circle cx="225" cy="210" r="3" fill="#ffeb3b" opacity="0.8"/>
 
-            <rect x="70" y="280" width="100" height="25" rx="10" fill="#212529"/> 방석
-            <rect x="85" y="210" width="70" height="75" rx="15" fill="#212529"/> 등받이
-            <rect x="115" y="305" width="10" height="105" fill="#495057"/>Center 기둥
-            <path d="M70 410 L170 410" stroke="#212529" stroke-width="10" stroke-linecap="round"/> 바닥다리
+            <rect x="70" y="280" width="100" height="25" rx="10" fill="#212529"/>
+            <rect x="85" y="210" width="70" height="75" rx="15" fill="#212529"/>
+            <rect x="115" y="305" width="10" height="105" fill="#495057"/>
+            <path d="M70 410 L170 410" stroke="#212529" stroke-width="10" stroke-linecap="round"/>
 
             <rect x="320" y="270" width="230" height="120" rx="20" fill="#495057"/>
             <rect x="320" y="340" width="230" height="50" rx="10" fill="#343a40"/>
-            <line x1="435" y1="270" x2="435" y2="340" stroke="#2c3e50" stroke-width="2"/> 소파 등받이 나눔
+            <line x1="435" y1="270" x2="435" y2="340" stroke="#2c3e50" stroke-width="2"/>
         `;
 
-        // 오염 요소 데이터 (Ver 2.1 - 더 리얼해진 번짐 얼룩)
         const stainsSVG = `
             <defs>
                 <radialGradient id="coffeeStainGrade" cx="50%" cy="50%" r="50%">
@@ -241,7 +212,6 @@
             <g class="stain-group"><rect class="hitbox" x="180" y="235" width="50" height="50"/><circle class="stain-art" cx="205" cy="258" r="6" fill="#facc15"/><circle class="stain-art" cx="225" cy="260" r="4" fill="#facc15"/></g>
         `;
 
-        // 초기화
         document.getElementById('clean-svg').innerHTML = officeSVG;
         document.getElementById('dirty-svg').innerHTML = officeSVG + stainsSVG;
 
@@ -275,7 +245,6 @@
                 foundCount++;
                 document.getElementById('count-num').innerText = 8 - foundCount;
                 
-                // 👇 스펀지 거품 파티클 생성 로직
                 const sparkle = document.createElement('div');
                 sparkle.className = 'sparkle'; sparkle.innerText = '🫧';
                 sparkle.style.left = e.pageX + 'px'; sparkle.style.top = e.pageY + 'px';
@@ -286,11 +255,53 @@
             });
         });
 
+        // 결과창 표시 함수 (성공/실패 분기)
         function showResult(isWin) {
             document.getElementById('result-modal').style.display = 'flex';
-            if (!isWin) {
-                document.getElementById('res-title').innerText = "시간 초과! ⏰";
-                document.getElementById('res-title').style.color = "#e74c3c";
+            const modalBox = document.getElementById('modal-content-box');
+
+            if (isWin) {
+                // 성공 화면 (8개 다 찾음)
+                modalBox.innerHTML = `
+                    <h2 style="font-size: 3.2rem; color: var(--letus-orange); margin-top:0; font-weight: 900; letter-spacing: -3px;">✨ 참 잘했어요!</h2>
+                    <p style="font-size: 1.3rem; line-height: 1.6; color: #333; font-weight: 500;">
+                        눈에 보이는 큰 먼지 8개를 모두 닦아내셨군요! 👏<br>
+                        하지만 <b>섬유 깊숙한 곳의 진짜 오염</b>은<br>
+                        스펀지로 문지르는 정도론 해결되지 않습니다.
+                    </p>
+                    <div style="background: #ececec; padding: 20px 25px; border-radius: 20px; margin: 25px 0; text-align: left; font-size: 1rem; line-height: 1.8; color: #2d3436; border: 2px solid #ddd;">
+                        <b style="font-size: 1.2rem; display: block; margin-bottom: 12px; color: var(--letus-orange);">✨ 섬유 속 세균까지, 레터스 딥 클리닝</b>
+                        <b>1️⃣ 건식 집진:</b> 헤파필터로 깊은 곳 <span style="color: var(--letus-orange); font-weight: bold;">굵은 먼지와 모래</span> 제거<br>
+                        <b>2️⃣ 얼룩 분해:</b> <span style="color: var(--letus-orange); font-weight: bold;">심한 얼룩 부위</span>에 전용 전처리제 <span style="color: var(--letus-orange); font-weight: bold;">집중 분해</span><br>
+                        <b>3️⃣ 샴푸 및 추출:</b> 카펫 전용 세제 분사 및 오수 <span style="color: var(--letus-orange); font-weight: bold;">강력한 압력</span>으로 흡입<br>
+                        <b>4️⃣ 린스 및 건조:</b> 맑은 물 <span style="color: var(--letus-orange); font-weight: bold;">헹굼 작업</span>으로 잔여 세제 완벽 제거
+                    </div>
+                    <p style="font-size: 1.25rem; color: #444; font-weight: bold;">
+                        이제 겉이 아니라 '속'을 청소해야 할 때입니다.<br>
+                        레터스와 함께 진정한 '소멸'을 경험해 보세요.
+                    </p>
+                    <a href="https://www.letus4u.com/" class="cta-link">우리 사무실 먼지 소멸하기 🚀</a>
+                `;
+            } else {
+                // 실패 화면 (시간 초과)
+                modalBox.innerHTML = `
+                    <h2 style="font-size: 3.2rem; color: var(--dust-red); margin-top:0; font-weight: 900; letter-spacing: -3px;">⏰ 시간 초과!</h2>
+                    <p style="font-size: 1.25rem; line-height: 1.6; color: #333; font-weight: 500;">
+                        아쉽네요! <b>총 ${foundCount}개</b>의 오염만 발견하셨습니다.<br>
+                        이처럼 <b>우리 눈에 잘 보이지 않는 미세먼지와 꽃가루!</b><br>
+                        알러지 및 각종 질병과 피로감을 유발시키는 먼지,<br>
+                        이제는 깨끗하게 제거할 때 입니다!
+                    </p>
+                    <div style="background: #ececec; padding: 22px 25px; border-radius: 20px; margin: 25px 0; text-align: center; font-size: 1.1rem; line-height: 1.7; color: #2d3436; border: 2px solid #ddd;">
+                        우리가 미처 <b>우리 눈으로 찾을 수 없었던 것</b>까지<br>
+                        레터스는 다 찾아내서 깨끗한 환경으로 되돌려드립니다.<br>
+                        <b style="display: block; margin-top: 10px; color: var(--dust-red);">레터스의 전문 딥 클리닝을 경험해보세요.</b>
+                    </div>
+                    <p style="font-size: 1.25rem; color: #444; font-weight: bold;">
+                        레터스와 함께 진정한 '소멸'을 경험해 보세요.
+                    </p>
+                    <a href="https://www.letus4u.com/" class="cta-link" style="background: var(--dust-red); box-shadow: 0 10px 25px rgba(231, 76, 60, 0.4);">우리 사무실 먼지 소멸하기 🚀</a>
+                `;
             }
         }
     </script>
