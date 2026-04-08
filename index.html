@@ -29,20 +29,22 @@
             z-index: 9999; text-align: center;
             background-image: radial-gradient(#eee 1px, transparent 1px);
             background-size: 15px 15px;
+            padding: 20px;
         }
 
         #opening-screen h1 {
-            font-size: 3.6rem; font-weight: 900; margin: 0;
+            font-size: clamp(2rem, 8vw, 3.6rem); 
+            font-weight: 900; margin: 0;
             color: var(--letus-orange);
-            line-height: 1.1; letter-spacing: -3px;
-            white-space: nowrap; /* 제목 한 줄 고정 */
-            
+            line-height: 1.1; letter-spacing: -2px;
+            white-space: nowrap; 
         }
 
-        #opening-screen p { font-size: 1.5rem; margin: 30px 0 60px; color: #555; font-weight: 500; }
+        #opening-screen p { font-size: 1.2rem; margin: 25px 0 45px; color: #555; font-weight: 500; line-height: 1.6; }
+        .highlight-text { color: var(--letus-orange); font-weight: 800; border-bottom: 2px solid var(--letus-orange); }
 
         .start-btn {
-            padding: 25px 90px; font-size: 1.7rem; font-weight: 900;
+            padding: 22px 80px; font-size: 1.6rem; font-weight: 900;
             background: var(--letus-orange); color: white; border: none;
             border-radius: 60px; cursor: pointer; transition: 0.3s;
             box-shadow: 0 15px 35px rgba(255, 92, 57, 0.4);
@@ -69,64 +71,62 @@
         }
         .label { position: absolute; top: 20px; left: 20px; padding: 7px 18px; border-radius: 20px; color: white; font-size: 13px; font-weight: bold; z-index: 100; letter-spacing: 1px; box-shadow: 0 3px 10px rgba(0,0,0,0.2);}
 
-        /* [3] 일러스트 및 오염 스타일 */
+        /* [3] 결과창 */
+        #result-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.92); display: none;
+            justify-content: center; align-items: center; z-index: 10000; overflow-y: auto;
+        }
+        .modal-card { 
+            background: white; padding: 40px 50px; border-radius: 40px; text-align: center; 
+            max-width: 780px; width: 95%;
+            border-top: 15px solid var(--letus-orange); animation: modalUp 0.6s ease-out; 
+        }
+        @keyframes modalUp { from { transform: translateY(60px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        /* 상세 가격표 테이블 */
+        .price-table-container {
+            background: #f8f9fa; border-radius: 20px; padding: 25px;
+            margin: 20px 0; border: 1px solid #eee;
+        }
+        .price-table { width: 100%; border-collapse: collapse; margin-top: 10px; table-layout: fixed; }
+        .price-table th { padding: 12px; font-size: 0.85rem; color: #666; border-bottom: 2px solid #dee2e6; background: #fff; }
+        .price-table td { padding: 15px 5px; border-bottom: 1px solid #eee; vertical-align: middle; }
+        .type-name { font-weight: 800; color: #333; text-align: left; font-size: 0.95rem; padding-left: 10px !important; }
+        .price-cell { font-family: 'Pretendard', sans-serif; font-weight: 700; font-size: 0.95rem; color: #555; }
+        .best-price { color: var(--letus-orange); font-weight: 900; font-size: 1.05rem; }
+        
+        .price-notice-box { 
+            margin-top: 20px; padding: 15px; background: #fff; border-radius: 12px; 
+            text-align: left; font-size: 0.85rem; color: #666; line-height: 1.6; border-left: 4px solid var(--letus-orange);
+        }
+
+        .ticket-badge {
+            display: inline-block; background: #fff0ed; color: var(--letus-orange);
+            padding: 8px 20px; border-radius: 50px; font-weight: 900; font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .cta-link { display: inline-block; margin-top: 15px; padding: 18px 50px; background: var(--text-dark); color: white; text-decoration: none; border-radius: 60px; font-weight: 900; font-size: 1.2rem; transition: 0.3s; }
+        .cta-link:hover { transform: scale(1.03); }
+
+        /* [애니메이션 및 일러스트 생략 - 기존 동일] */
         svg { width: 100%; height: 100%; display: block; }
         .stain-group { cursor: pointer; }
         .hitbox { fill: transparent; pointer-events: all; stroke: transparent; stroke-width: 30px; }
         .stain-art { transition: all 0.5s ease-out; pointer-events: none; transform-origin: center; }
         .found .stain-art { opacity: 0 !important; transform: scale(0) rotate(20deg); }
-
-        /* [4] 결과창 (와이드 직사각형으로 수정) */
-        #result-modal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9); display: none;
-            justify-content: center; align-items: center; z-index: 10000;
-        }
-        .modal-card { 
-            background: white; padding: 50px 60px; border-radius: 40px; text-align: center; 
-            max-width: 650px; /* 와이드하게 변경 */
-            width: 90%;
-            border-top: 15px solid var(--letus-orange); animation: modalUp 0.6s ease-out; 
-        }
-        @keyframes modalUp { from { transform: translateY(60px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-        /* 가격표 스타일 추가 */
-        .price-table {
-            background: #f8f9fa; border-radius: 20px; padding: 25px;
-            margin: 25px 0; border: 1px solid #eee; text-align: left;
-        }
-        .price-row {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 12px 0; border-bottom: 1px solid #eee;
-        }
-        .price-row:last-child { border-bottom: none; }
-        .price-label { font-weight: 700; color: #444; }
-        .price-value { text-align: right; }
-        .old-p { text-decoration: line-through; color: #adb5bd; font-size: 0.9rem; margin-right: 10px; }
-        .new-p { font-weight: 900; color: var(--letus-orange); font-size: 1.2rem; }
-
-        .ticket-badge {
-            display: inline-block; background: #fff0ed; color: var(--letus-orange);
-            padding: 8px 20px; border-radius: 50px; font-weight: 900; font-size: 1rem;
-            margin-bottom: 20px;
-        }
-
-        .cta-link { display: inline-block; margin-top: 20px; padding: 20px 60px; background: var(--text-dark); color: white; text-decoration: none; border-radius: 60px; font-weight: 900; font-size: 1.3rem; transition: 0.3s; }
-        .cta-link:hover { transform: scale(1.05); }
-
         .sparkle { position: absolute; pointer-events: none; animation: sparkleAni 0.7s forwards; font-size: 40px; z-index: 1000; }
-        @keyframes sparkleAni { 
-            0% { transform: scale(0); opacity: 1; } 
-            60% { transform: scale(1.6) translateY(-25px); opacity: 1; }
-            100% { transform: scale(1) translateY(-60px) rotate(20deg); opacity: 0; } 
-        }
+        @keyframes sparkleAni { 0% { transform: scale(0); opacity: 1; } 60% { transform: scale(1.6) translateY(-25px); opacity: 1; } 100% { transform: scale(1) translateY(-60px) rotate(20deg); opacity: 0; } }
     </style>
 </head>
 <body>
 
     <div id="opening-screen">
         <h1>🫧사무실 먼지 소멸 대작전🫧</h1>
-        <p>사무실 곳곳에 숨은 8개의 오염을 찾아 소멸시켜주세요!<br>참여하신 모든 분께 <b>'구독자 전용 에어컨 클리닝 혜택가'</b> 응모 기회를 드립니다.</p>
+        <p>사무실 곳곳에 숨은 8개의 오염을 찾아 소멸시켜주세요!<br>
+           <span class="highlight-text">미션을 완수하고 시크릿 혜택가를 직접 확인하세요!</span><br>
+           참여하신 모든 분께 구독자 전용 '에어컨 클리닝 혜택' 응모 기회를 드립니다.</p>
         <button class="start-btn" onclick="handleStart()">GAME START</button>
     </div>
 
@@ -138,7 +138,6 @@
                 남은 오염: <span id="count-num" style="color:var(--letus-orange); font-weight: 900; font-size: 1.5rem;">8</span> / 8 | 시간: <span id="time-txt">03:00</span>
             </div>
         </div>
-
         <div class="game-container">
             <div class="canvas">
                 <div class="label" style="background:#808e9b;">CLEAN OFFICE</div>
@@ -156,6 +155,7 @@
     </div>
 
     <script>
+        /* [SVG 코드 데이터 - 기존 데이터 유지] */
         const officeSVG = `
             <defs>
                 <linearGradient id="wallGrade" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -169,7 +169,6 @@
             </defs>
             <rect width="600" height="500" fill="url(#wallGrade)"/>
             <rect y="380" width="600" height="120" fill="url(#floorGrade)"/>
-            
             <rect x="350" y="40" width="180" height="130" rx="10" fill="#fff" stroke="#adb5bd" stroke-width="4"/>
             <clipPath id="windowClip"><rect x="355" y="45" width="170" height="120" rx="8"/></clipPath>
             <g clip-path="url(#windowClip)">
@@ -178,19 +177,15 @@
                 <path d="M380 165 L430 110 L480 150 L530 100 L580 165 Z" fill="#66bb6a" opacity="0.8"/>
                 <path d="M355 45 Q400 30 430 45 T480 60 Q530 45 530 45" stroke="#90caf9" stroke-width="2" fill="none"/>
             </g>
-
             <rect x="50" y="410" width="500" height="75" rx="35" fill="#cfd8dc"/>
-
             <rect x="40" y="260" width="240" height="12" rx="4" fill="#8d6e63"/>
             <rect x="55" y="272" width="12" height="138" fill="#6d4c41"/>
             <rect x="255" y="272" width="12" height="138" fill="#6d4c41"/>
-            
             <rect x="180" y="320" width="70" height="90" rx="5" fill="#ced4da"/>
             <line x1="185" y1="350" x2="245" y2="350" stroke="#adb5bd" stroke-width="2"/>
             <line x1="185" y1="380" x2="245" y2="380" stroke="#adb5bd" stroke-width="2"/>
             <circle cx="215" cy="340" r="3" fill="#495057"/>
             <circle cx="215" cy="370" r="3" fill="#495057"/>
-
             <rect x="80" y="190" width="100" height="60" rx="5" fill="#333"/>
             <linearGradient id="screenGrade" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" style="stop-color:#2c3e50" />
@@ -199,35 +194,19 @@
             <rect x="85" y="195" width="90" height="50" rx="3" fill="url(#screenGrade)"/>
             <rect x="125" y="250" width="10" height="10" fill="#495057"/>
             <rect x="100" y="258" width="60" height="2" fill="#495057"/>
-
             <rect x="210" y="225" width="30" height="35" rx="5" fill="#d4a373"/>
             <path d="M225 225 Q250 180 270 200 Q225 215 225 225 Z" fill="#1b5e20"/>
             <path d="M225 225 Q200 170 185 205 Q225 215 225 225 Z" fill="#2e7d32"/>
             <circle cx="225" cy="210" r="3" fill="#ffeb3b" opacity="0.8"/>
-
             <rect x="70" y="280" width="100" height="25" rx="10" fill="#212529"/>
             <rect x="85" y="210" width="70" height="75" rx="15" fill="#212529"/>
             <rect x="115" y="305" width="10" height="105" fill="#495057"/>
             <path d="M70 410 L170 410" stroke="#212529" stroke-width="10" stroke-linecap="round"/>
-
             <rect x="320" y="270" width="230" height="120" rx="20" fill="#495057"/>
             <rect x="320" y="340" width="230" height="50" rx="10" fill="#343a40"/>
             <line x1="435" y1="270" x2="435" y2="340" stroke="#2c3e50" stroke-width="2"/>
         `;
-
         const stainsSVG = `
-            <defs>
-                <radialGradient id="coffeeStainGrade" cx="50%" cy="50%" r="50%">
-                    <stop offset="10%" style="stop-color:#3e2723" />
-                    <stop offset="60%" style="stop-color:#5d4037; stop-opacity:0.9" />
-                    <stop offset="100%" style="stop-color:#6d4c41; stop-opacity:0.2" />
-                </radialGradient>
-                <radialGradient id="waterStainGrade" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" style="stop-color:#90caf9; stop-opacity:0.6" />
-                    <stop offset="70%" style="stop-color:#adb5bd; stop-opacity:0.3" />
-                    <stop offset="100%" style="stop-color:#e9ecef; stop-opacity:0.1" />
-                </radialGradient>
-            </defs>
             <g class="stain-group"><rect class="hitbox" x="350" y="415" width="150" height="60"/><path class="stain-art" d="M380 445 C385 448, 395 440, 410 425 C430 410, 460 420, 480 435 C495 450, 490 460, 470 470 C440 480, 410 475, 385 465 C370 455, 375 442, 380 445 Z" fill="url(#coffeeStainGrade)"/></g>
             <g class="stain-group"><rect class="hitbox" x="320" y="340" width="120" height="50"/><path class="stain-art" d="M340 365 C350 355, 360 360, 380 350 C400 340, 420 350, 430 365 C435 375, 425 385, 405 380 C380 375, 360 385, 345 375 C335 370, 335 368, 340 365 Z" fill="url(#waterStainGrade)"/></g>
             <g class="stain-group"><rect class="hitbox" x="80" y="210" width="80" height="80"/><ellipse class="stain-art" cx="120" cy="245" rx="30" ry="30" fill="rgba(0,0,0,0.5)"/></g>
@@ -258,7 +237,6 @@
                 const sec = timeLeft % 60;
                 document.getElementById('time-txt').innerText = `${min}:${sec < 10 ? '0' + sec : sec}`;
                 document.getElementById('timer-fill').style.width = (timeLeft / 180) * 100 + '%';
-                
                 if (timeLeft <= 30) { document.getElementById('timer-fill').style.background = '#e74c3c'; }
                 if (timeLeft <= 0) { clearInterval(timerId); showResult(false); }
             }, 1000);
@@ -270,78 +248,86 @@
                 this.classList.add('found');
                 foundCount++;
                 document.getElementById('count-num').innerText = 8 - foundCount;
-                
                 const sparkle = document.createElement('div');
                 sparkle.className = 'sparkle'; sparkle.innerText = '🫧';
                 sparkle.style.left = e.pageX + 'px'; sparkle.style.top = e.pageY + 'px';
                 document.body.appendChild(sparkle);
                 setTimeout(() => sparkle.remove(), 700);
-
                 if (foundCount === 8) { clearInterval(timerId); setTimeout(() => showResult(true), 600); }
             });
         });
 
-        // 결과창 표시 함수 (에어컨 프로모션으로 수정)
+        // 결과창 표시 함수
         function showResult(isWin) {
             document.getElementById('result-modal').style.display = 'flex';
             const modalBox = document.getElementById('modal-content-box');
 
             const commonPriceTable = `
-                <div class="price-table">
-                    <p style="font-weight:900; color:var(--letus-orange); margin-bottom:15px; font-size:0.95rem;">[쿠폰 당첨 시 적용되는 시크릿 특가]</p>
-                    <div class="price-row">
-                        <span class="price-label">벽걸이형</span>
-                        <div class="price-value"><span class="old-p">9.6만</span><span class="new-p">8.0만</span></div>
-                    </div>
-                    <div class="price-row">
-                        <span class="price-label">천장형 1·2Way</span>
-                        <div class="price-value"><span class="old-p">10.8만</span><span class="new-p">9.0만</span></div>
-                    </div>
-                    <div class="price-row">
-                        <span class="price-label">천장형 4Way</span>
-                        <div class="price-value"><span class="old-p">14.4만</span><span class="new-p">12.0만</span></div>
-                    </div>
-                    <p style="font-size:0.8rem; color:#888; margin-top:15px; text-align:center;">
-                        *스탠드 등 전 모델 특별가 적용 가능 (건당 최대 30만 원 지원)
-                        *더욱 자세한 상담을 원하시면 아래 버튼을 눌러 문의를 접수해주세요.
+                <div class="price-table-container">
+                    <p style="font-weight:900; color:var(--letus-orange); margin-bottom:10px; font-size:1.1rem; text-align:left;">
+                        [구독자 전용 수량별 시크릿 단가표]
                     </p>
+                    <table class="price-table">
+                        <thead>
+                            <tr>
+                                <th>에어컨 타입</th>
+                                <th>2~10대</th>
+                                <th>11~20대</th>
+                                <th>21대 이상</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="type-name">벽걸이형</td>
+                                <td class="price-cell">8.5만</td>
+                                <td class="price-cell">8.2만</td>
+                                <td class="best-price">8.0만</td>
+                            </tr>
+                            <tr>
+                                <td class="type-name">천장형 1·2Way</td>
+                                <td class="price-cell">9.5만</td>
+                                <td class="price-cell">9.2만</td>
+                                <td class="best-price">9.0만</td>
+                            </tr>
+                            <tr>
+                                <td class="type-name">천장형 4Way</td>
+                                <td class="price-cell">12.5만</td>
+                                <td class="price-cell">12.2만</td>
+                                <td class="best-price">12.0만</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="price-notice-box">
+                        • <b>최소 2대 이상</b>부터 정기 세척 서비스 이용이 가능합니다.<br>
+                        • <b>5대 이하 소량 주문 건</b>도 10대 이하 구간 단가를 그대로 적용해 드립니다.<br>
+                        • 스탠드/덕트형 등 특수 모델도 동일한 할인율이 적용되니 문의해 주세요.
+                    </div>
                 </div>
             `;
 
             if (isWin) {
                 modalBox.innerHTML = `
                     <div class="ticket-badge">LUCKY DRAW ENTRY 🎫</div>
-                    <h2 style="font-size: 2.8rem; color: var(--letus-orange); margin-top:0; font-weight: 900; letter-spacing: -2px;">완벽하게 소멸 완료!</h2>
-                    <p style="font-size: 1.15rem; line-height: 1.6; color: #333;">
-                        놀라운 집중력입니다! 숨은 오염 8개를 모두 소멸시키셨네요.<br>
-                        참여해주신 분 중 <b>추첨을 통해 서른 분</b>께<br>
-                        구독자 전용 베네핏을 적용한 <b>'특별 할인가'</b>를 적용해드립니다.
+                    <h2 style="font-size: 2.3rem; color: var(--letus-orange); margin-top:0; font-weight: 900; letter-spacing: -1.5px;">미션 완료! 혜택 확인하기</h2>
+                    <p style="font-size: 1.1rem; line-height: 1.6; color: #333; margin-bottom:10px;">
+                        놀라운 집중력입니다! 약속드린 <b>'구독자 전용 시크릿 혜택가'</b>를 공개합니다.<br>
+                        지금 바로 에어컨 수량에 맞는 최적의 단가를 확인해 보세요.
                     </p>
                     ${commonPriceTable}
-                    <p style="font-size: 1.1rem; color: #444; font-weight: bold;">
-                        당첨 결과는 추첨 후 이메일로 개별 안내 드릴 예정입니다.<br>
-                        상쾌한 오피스를 위한 가장 스마트한 준비를 시작해보세요!
-                    </p>
-                    <a href="#" class="cta-link" onclick="location.reload()">이벤트 응모 완료 ✅</a>
+                    <a href="#" class="cta-link" onclick="location.reload()">이벤트 응모 및 상담 예약 ✅</a>
                 `;
             } else {
                 modalBox.innerHTML = `
                     <div class="ticket-badge">LUCKY DRAW ENTRY 🎫</div>
-                    <h2 style="font-size: 2.8rem; color: var(--dust-red); margin-top:0; font-weight: 900; letter-spacing: -2px;">조금 아쉽네요!</h2>
-                    <p style="font-size: 1.15rem; line-height: 1.6; color: #333;">
-                        <b>총 ${foundCount}개</b>의 오염을 발견하셨습니다.<br>
-                        찾지 못한 숨은 오염은 레터스가 다 찾아낼게요!<br>
-                        걱정 마세요, <b>참여만으로도 응모는 완료되었습니다.</b>
+                    <h2 style="font-size: 2.3rem; color: var(--dust-red); margin-top:0; font-weight: 900; letter-spacing: -1.5px;">아쉽지만 혜택은 유효해요!</h2>
+                    <p style="font-size: 1.1rem; line-height: 1.6; color: #333; margin-bottom:10px;">
+                        오염 찾기가 조금 어려웠나요? 나머지는 레터스가 완벽히 해결해 드릴게요.<br>
+                        참여해 주신 감사의 마음을 담아 <b>시크릿 혜택가</b>를 동일하게 적용해 드립니다.
                     </p>
                     ${commonPriceTable}
-                    <p style="font-size: 1.1rem; color: #444; font-weight: bold;">
-                        추첨을 통해 서른 분께 '구독자 전용 시크릿 혜택가'를 제공합니다.<br>
-                        당첨 결과 메일을 조금만 기다려주세요!
-                    </p>
-
-                    <div style="display: flex; gap: 15px; justify-content: center; margin-top: 30px;">
-                        <a href="#" class="cta-link" style="margin-top:0; flex: 1; background: #1a1a1a; font-size: 1.2rem; padding: 20px 0;" onclick="location.reload()">이벤트 응모 완료</a>
-                        <a href="https://www.letus4u.com/" target="_blank" class="cta-link" style="margin-top:0; flex: 1; background: white; color: #1a1a1a; border: 2px solid #1a1a1a; font-size: 1.2rem; padding: 20px 0;">레터스 서비스 더 알아보기</a>
+                    <div style="display: flex; gap: 15px; justify-content: center; margin-top: 20px;">
+                        <a href="#" class="cta-link" style="margin-top:0; flex: 1; background: #1a1a1a;" onclick="location.reload()">응모 완료</a>
+                        <a href="https://www.letus4u.com/" target="_blank" class="cta-link" style="margin-top:0; flex: 1; background: white; color: #1a1a1a; border: 2px solid #1a1a1a;">서비스 더 보기</a>
                     </div>
                 `;
             }
