@@ -84,17 +84,17 @@
         }
         @keyframes modalUp { from { transform: translateY(60px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-        /* 상세 가격표 테이블 */
+        /* 세분화된 가격표 테이블 */
         .price-table-container {
             background: #f8f9fa; border-radius: 20px; padding: 25px;
             margin: 20px 0; border: 1px solid #eee;
         }
         .price-table { width: 100%; border-collapse: collapse; margin-top: 10px; table-layout: fixed; }
-        .price-table th { padding: 12px; font-size: 0.85rem; color: #666; border-bottom: 2px solid #dee2e6; background: #fff; }
+        .price-table th { padding: 12px; font-size: 0.9rem; color: #666; border-bottom: 2px solid #dee2e6; background: #fff; }
         .price-table td { padding: 15px 5px; border-bottom: 1px solid #eee; vertical-align: middle; }
-        .type-name { font-weight: 800; color: #333; text-align: left; font-size: 0.95rem; padding-left: 10px !important; }
-        .price-cell { font-family: 'Pretendard', sans-serif; font-weight: 700; font-size: 0.95rem; color: #555; }
-        .best-price { color: var(--letus-orange); font-weight: 900; font-size: 1.05rem; }
+        .type-name { font-weight: 800; color: #333; text-align: left; font-size: 1rem; padding-left: 15px !important; }
+        .price-cell { font-family: 'Pretendard', sans-serif; font-weight: 700; font-size: 1rem; color: #444; }
+        .best-price { color: var(--letus-orange); font-weight: 900; font-size: 1.1rem; }
         
         .price-notice-box { 
             margin-top: 20px; padding: 15px; background: #fff; border-radius: 12px; 
@@ -110,7 +110,7 @@
         .cta-link { display: inline-block; margin-top: 15px; padding: 18px 50px; background: var(--text-dark); color: white; text-decoration: none; border-radius: 60px; font-weight: 900; font-size: 1.2rem; transition: 0.3s; }
         .cta-link:hover { transform: scale(1.03); }
 
-        /* [애니메이션 및 일러스트 생략 - 기존 동일] */
+        /* 일러스트 및 오염 스타일 */
         svg { width: 100%; height: 100%; display: block; }
         .stain-group { cursor: pointer; }
         .hitbox { fill: transparent; pointer-events: all; stroke: transparent; stroke-width: 30px; }
@@ -155,7 +155,6 @@
     </div>
 
     <script>
-        /* [SVG 코드 데이터 - 기존 데이터 유지] */
         const officeSVG = `
             <defs>
                 <linearGradient id="wallGrade" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -166,6 +165,16 @@
                     <stop offset="0%" style="stop-color:#ced4da" />
                     <stop offset="100%" style="stop-color:#adb5bd" />
                 </linearGradient>
+                <radialGradient id="coffeeStainGrade" cx="50%" cy="50%" r="50%">
+                    <stop offset="10%" style="stop-color:#3e2723" />
+                    <stop offset="60%" style="stop-color:#5d4037; stop-opacity:0.9" />
+                    <stop offset="100%" style="stop-color:#6d4c41; stop-opacity:0.2" />
+                </radialGradient>
+                <radialGradient id="waterStainGrade" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" style="stop-color:#90caf9; stop-opacity:0.6" />
+                    <stop offset="70%" style="stop-color:#adb5bd; stop-opacity:0.3" />
+                    <stop offset="100%" style="stop-color:#e9ecef; stop-opacity:0.1" />
+                </radialGradient>
             </defs>
             <rect width="600" height="500" fill="url(#wallGrade)"/>
             <rect y="380" width="600" height="120" fill="url(#floorGrade)"/>
@@ -175,46 +184,35 @@
                 <rect x="355" y="45" width="170" height="120" fill="#e3f2fd"/>
                 <path d="M350 165 L400 90 L460 140 L520 80 L560 165 Z" fill="#81c784"/>
                 <path d="M380 165 L430 110 L480 150 L530 100 L580 165 Z" fill="#66bb6a" opacity="0.8"/>
-                <path d="M355 45 Q400 30 430 45 T480 60 Q530 45 530 45" stroke="#90caf9" stroke-width="2" fill="none"/>
             </g>
             <rect x="50" y="410" width="500" height="75" rx="35" fill="#cfd8dc"/>
             <rect x="40" y="260" width="240" height="12" rx="4" fill="#8d6e63"/>
             <rect x="55" y="272" width="12" height="138" fill="#6d4c41"/>
             <rect x="255" y="272" width="12" height="138" fill="#6d4c41"/>
             <rect x="180" y="320" width="70" height="90" rx="5" fill="#ced4da"/>
-            <line x1="185" y1="350" x2="245" y2="350" stroke="#adb5bd" stroke-width="2"/>
-            <line x1="185" y1="380" x2="245" y2="380" stroke="#adb5bd" stroke-width="2"/>
             <circle cx="215" cy="340" r="3" fill="#495057"/>
             <circle cx="215" cy="370" r="3" fill="#495057"/>
             <rect x="80" y="190" width="100" height="60" rx="5" fill="#333"/>
-            <linearGradient id="screenGrade" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:#2c3e50" />
-                <stop offset="100%" style="stop-color:#4ca1af" />
-            </linearGradient>
-            <rect x="85" y="195" width="90" height="50" rx="3" fill="url(#screenGrade)"/>
+            <rect x="85" y="195" width="90" height="50" rx="3" fill="#2c3e50"/>
             <rect x="125" y="250" width="10" height="10" fill="#495057"/>
-            <rect x="100" y="258" width="60" height="2" fill="#495057"/>
             <rect x="210" y="225" width="30" height="35" rx="5" fill="#d4a373"/>
-            <path d="M225 225 Q250 180 270 200 Q225 215 225 225 Z" fill="#1b5e20"/>
-            <path d="M225 225 Q200 170 185 205 Q225 215 225 225 Z" fill="#2e7d32"/>
-            <circle cx="225" cy="210" r="3" fill="#ffeb3b" opacity="0.8"/>
+            <path d="M225 225 Q250 180 270 200 Z" fill="#1b5e20"/>
             <rect x="70" y="280" width="100" height="25" rx="10" fill="#212529"/>
             <rect x="85" y="210" width="70" height="75" rx="15" fill="#212529"/>
             <rect x="115" y="305" width="10" height="105" fill="#495057"/>
-            <path d="M70 410 L170 410" stroke="#212529" stroke-width="10" stroke-linecap="round"/>
             <rect x="320" y="270" width="230" height="120" rx="20" fill="#495057"/>
             <rect x="320" y="340" width="230" height="50" rx="10" fill="#343a40"/>
-            <line x1="435" y1="270" x2="435" y2="340" stroke="#2c3e50" stroke-width="2"/>
         `;
+
         const stainsSVG = `
-            <g class="stain-group"><rect class="hitbox" x="350" y="415" width="150" height="60"/><path class="stain-art" d="M380 445 C385 448, 395 440, 410 425 C430 410, 460 420, 480 435 C495 450, 490 460, 470 470 C440 480, 410 475, 385 465 C370 455, 375 442, 380 445 Z" fill="url(#coffeeStainGrade)"/></g>
-            <g class="stain-group"><rect class="hitbox" x="320" y="340" width="120" height="50"/><path class="stain-art" d="M340 365 C350 355, 360 360, 380 350 C400 340, 420 350, 430 365 C435 375, 425 385, 405 380 C380 375, 360 385, 345 375 C335 370, 335 368, 340 365 Z" fill="url(#waterStainGrade)"/></g>
-            <g class="stain-group"><rect class="hitbox" x="80" y="210" width="80" height="80"/><ellipse class="stain-art" cx="120" cy="245" rx="30" ry="30" fill="rgba(0,0,0,0.5)"/></g>
-            <g class="stain-group"><rect class="hitbox" x="350" y="150" width="180" height="25"/><rect class="stain-art" x="355" y="155" width="170" height="4" fill="#607d8b" opacity="0.8"/></g>
-            <g class="stain-group"><rect class="hitbox" x="20" y="330" width="80" height="100"/><g class="stain-art"><circle cx="45" cy="385" r="3" fill="#111"/><circle cx="50" cy="388" r="3" fill="#111"/><circle cx="65" cy="390" r="3" fill="#111"/><circle cx="85" cy="382" r="3" fill="#111"/><circle cx="90" cy="385" r="3" fill="#111"/></g></g>
+            <g class="stain-group"><rect class="hitbox" x="350" y="415" width="150" height="60"/><path class="stain-art" d="M380 445 C410 425, 460 420, 480 435 C470 470, 410 475, 385 465 Z" fill="url(#coffeeStainGrade)"/></g>
+            <g class="stain-group"><rect class="hitbox" x="320" y="340" width="120" height="50"/><path class="stain-art" d="M340 365 C380 350, 420 350, 430 365 C405 380, 360 385, 345 375 Z" fill="url(#waterStainGrade)"/></g>
+            <g class="stain-group"><rect class="hitbox" x="85" y="195" width="90" height="50"/><ellipse class="stain-art" cx="130" cy="220" rx="20" ry="20" fill="rgba(0,0,0,0.5)"/></g>
+            <g class="stain-group"><rect class="hitbox" x="355" y="45" width="170" height="120"/><rect class="stain-art" x="360" y="50" width="160" height="4" fill="#607d8b" opacity="0.8"/></g>
+            <g class="stain-group"><rect class="hitbox" x="80" y="410" width="150" height="70"/><g class="stain-art"><circle cx="110" cy="440" r="4" fill="#555"/><circle cx="130" cy="455" r="3" fill="#555"/><circle cx="160" cy="445" r="5" fill="#555"/><circle cx="190" cy="450" r="3" fill="#555"/><circle cx="210" cy="435" r="4" fill="#555"/></g></g>
             <g class="stain-group"><rect class="hitbox" x="40" y="240" width="60" height="40"/><circle class="stain-art" cx="70" cy="255" r="14" fill="none" stroke="#3e2723" stroke-width="4" opacity="0.6"/></g>
             <g class="stain-group"><rect class="hitbox" x="510" y="280" width="50" height="80"/><ellipse class="stain-art" cx="530" cy="315" rx="15" ry="30" fill="#6d4c41" opacity="0.7"/></g>
-            <g class="stain-group"><rect class="hitbox" x="180" y="235" width="50" height="50"/><circle class="stain-art" cx="205" cy="258" r="6" fill="#facc15"/><circle class="stain-art" cx="225" cy="260" r="4" fill="#facc15"/></g>
+            <g class="stain-group"><rect class="hitbox" x="210" y="225" width="30" height="35"/><circle class="stain-art" cx="225" cy="240" r="8" fill="#facc15"/></g>
         `;
 
         document.getElementById('clean-svg').innerHTML = officeSVG;
@@ -237,7 +235,6 @@
                 const sec = timeLeft % 60;
                 document.getElementById('time-txt').innerText = `${min}:${sec < 10 ? '0' + sec : sec}`;
                 document.getElementById('timer-fill').style.width = (timeLeft / 180) * 100 + '%';
-                if (timeLeft <= 30) { document.getElementById('timer-fill').style.background = '#e74c3c'; }
                 if (timeLeft <= 0) { clearInterval(timerId); showResult(false); }
             }, 1000);
         }
@@ -257,11 +254,11 @@
             });
         });
 
-        // 결과창 표시 함수
         function showResult(isWin) {
             document.getElementById('result-modal').style.display = 'flex';
             const modalBox = document.getElementById('modal-content-box');
 
+            // 엑셀 내용 그대로 반영된 단가표
             const commonPriceTable = `
                 <div class="price-table-container">
                     <p style="font-weight:900; color:var(--letus-orange); margin-bottom:10px; font-size:1.1rem; text-align:left;">
@@ -271,63 +268,58 @@
                         <thead>
                             <tr>
                                 <th>에어컨 타입</th>
-                                <th>2~10대</th>
+                                <th>6~10대</th>
                                 <th>11~20대</th>
-                                <th>21대 이상</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td class="type-name">벽걸이형</td>
-                                <td class="price-cell">8.5만</td>
-                                <td class="price-cell">8.2만</td>
-                                <td class="best-price">8.0만</td>
+                                <td class="price-cell">70,000원</td>
+                                <td class="best-price">70,000원</td>
                             </tr>
                             <tr>
                                 <td class="type-name">천장형 1·2Way</td>
-                                <td class="price-cell">9.5만</td>
-                                <td class="price-cell">9.2만</td>
-                                <td class="best-price">9.0만</td>
+                                <td class="price-cell">90,000원</td>
+                                <td class="best-price">80,000원</td>
                             </tr>
                             <tr>
                                 <td class="type-name">천장형 4Way</td>
-                                <td class="price-cell">12.5만</td>
-                                <td class="price-cell">12.2만</td>
-                                <td class="best-price">12.0만</td>
+                                <td class="price-cell">120,000원</td>
+                                <td class="best-price">110,000원</td>
                             </tr>
                         </tbody>
                     </table>
                     <div class="price-notice-box">
-                        • <b>최소 2대 이상</b>부터 정기 세척 서비스 이용이 가능합니다.<br>
-                        • <b>5대 이하 소량 주문 건</b>도 10대 이하 구간 단가를 그대로 적용해 드립니다.<br>
-                        • 스탠드/덕트형 등 특수 모델도 동일한 할인율이 적용되니 문의해 주세요.
+                        • 위 단가는 정기 세척 서비스 이용 시 적용되는 구독자 전용가입니다.<br>
+                        • 스탠드/덕트형 등 특수 모델 할인율은 별도 문의 부탁드립니다.
                     </div>
                 </div>
             `;
 
             if (isWin) {
                 modalBox.innerHTML = `
-                    <div class="ticket-badge">LUCKY DRAW ENTRY 🎫</div>
+                    <div class="ticket-badge">MISSION COMPLETE 🎫</div>
                     <h2 style="font-size: 2.3rem; color: var(--letus-orange); margin-top:0; font-weight: 900; letter-spacing: -1.5px;">미션 완료! 혜택 확인하기</h2>
                     <p style="font-size: 1.1rem; line-height: 1.6; color: #333; margin-bottom:10px;">
-                        놀라운 집중력입니다! 약속드린 <b>'구독자 전용 시크릿 혜택가'</b>를 공개합니다.<br>
-                        지금 바로 에어컨 수량에 맞는 최적의 단가를 확인해 보세요.
+                        완벽하게 모든 오염을 제거하셨네요! 약속드린 <b>'시크릿 혜택가'</b>를 공개합니다.<br>
+                        하단 버튼을 눌러 레터스 공식 홈페이지에서 상세 혜택을 확인하세요.
                     </p>
                     ${commonPriceTable}
-                    <a href="#" class="cta-link" onclick="location.reload()">이벤트 응모 및 상담 예약 ✅</a>
+                    <a href="https://www.letus4u.com/" target="_blank" class="cta-link">레터스 공식 홈페이지 가기 ✅</a>
                 `;
             } else {
                 modalBox.innerHTML = `
-                    <div class="ticket-badge">LUCKY DRAW ENTRY 🎫</div>
+                    <div class="ticket-badge">TRY AGAIN 🎫</div>
                     <h2 style="font-size: 2.3rem; color: var(--dust-red); margin-top:0; font-weight: 900; letter-spacing: -1.5px;">아쉽지만 혜택은 유효해요!</h2>
                     <p style="font-size: 1.1rem; line-height: 1.6; color: #333; margin-bottom:10px;">
-                        오염 찾기가 조금 어려웠나요? 나머지는 레터스가 완벽히 해결해 드릴게요.<br>
-                        참여해 주신 감사의 마음을 담아 <b>시크릿 혜택가</b>를 동일하게 적용해 드립니다.
+                        오염 찾기가 조금 어려웠나요? 참여해 주신 감사의 마음을 담아<br>
+                        동일한 <b>시크릿 혜택가</b>를 적용해 드립니다. 지금 바로 확인해 보세요!
                     </p>
                     ${commonPriceTable}
                     <div style="display: flex; gap: 15px; justify-content: center; margin-top: 20px;">
-                        <a href="#" class="cta-link" style="margin-top:0; flex: 1; background: #1a1a1a;" onclick="location.reload()">응모 완료</a>
-                        <a href="https://www.letus4u.com/" target="_blank" class="cta-link" style="margin-top:0; flex: 1; background: white; color: #1a1a1a; border: 2px solid #1a1a1a;">서비스 더 보기</a>
+                        <a href="https://www.letus4u.com/" target="_blank" class="cta-link" style="margin-top:0; flex: 1;">공식 홈페이지 가기</a>
+                        <a href="#" class="cta-link" style="margin-top:0; flex: 1; background: white; color: #1a1a1a; border: 2px solid #1a1a1a;" onclick="location.reload()">다시 도전하기</a>
                     </div>
                 `;
             }
