@@ -209,7 +209,7 @@
             const commonMsg = `<p style="font-size: 1.1rem; line-height: 1.6; color: #333;">당첨 결과는 기재해 주신 <b>이메일로 개별 안내</b> 드릴 예정이니 조금만 기다려 주세요!<br>상쾌한 오피스를 위한 가장 스마트한 준비, 레터스가 함께합니다.</p>`;
             
             if (isWin) {
-                modalBox.innerHTML = `<div class="ticket-badge">MISSION COMPLETE 🎫</div><h2 style="font-size: 2.3rem; color: var(--letus-orange); margin-top:0; font-weight: 900;">소멸 완료! 혜택을 확인하세요</h2>${commonMsg}${priceTable}<a href="https://www.letus4u.com/" target="_blank" class="cta-link">레터스 공식 홈페이지 문의하기 ✅</a>`;
+                modalBox.innerHTML = `<div class="ticket-badge">MISSION COMPLETE 🎫</div><h2 style="font-size: 2.3rem; color: var(--letus-orange); margin-top:0; font-weight: 900;">🌟소멸 완료🌟<br>혜택을 확인하세요</h2>${commonMsg}${priceTable}<a href="https://www.letus4u.com/" target="_blank" class="cta-link">레터스 공식 홈페이지 문의하기 ✅</a>`;
             } else {
                 modalBox.innerHTML = `<div class="ticket-badge">LUCKY DRAW ENTRY 🎫</div><h2 style="font-size: 2.3rem; color: var(--dust-red); margin-top:0; font-weight: 900;">아쉽지만 혜택은 유효해요!</h2>${commonMsg}${priceTable}<div style="display:flex; gap:15px; justify-content:center;"><a href="https://www.letus4u.com/" target="_blank" class="cta-link" style="flex:1;">문의하기</a><a href="#" class="cta-link" style="flex:1; background:white; color:#1a1a1a; border:2px solid #1a1a1a;" onclick="location.reload()">다시 도전</a></div>`;
             }
